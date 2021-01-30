@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class TestHelloWoldView(TestCase):
+class TestMyHealthAppView(TestCase):
     def test_get_success(self):
 
         response = self.client.get("/myhealthapp/")
