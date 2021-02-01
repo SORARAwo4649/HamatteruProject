@@ -1,0 +1,20 @@
+{% extends "myhealthapp/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>リスト一覧</h1>
+  <div class="card-columns">
+    {% for list in list_list %}
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ list.date }}</h5>
+        <footer>
+          <small class="datetime">就寝時間: {{ list.go_to_bed }}</small>
+          <small class="datetime">起床時間: {{ list.wakeup }}</small>
+        </footer>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

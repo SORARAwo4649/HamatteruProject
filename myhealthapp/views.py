@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, UpdateView, CreateView
+from django.views.generic import DetailView, UpdateView, CreateView, ListView
 
 from .forms import ListForm
 from . models import List
@@ -47,3 +47,8 @@ class ListCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class ListListView(LoginRequiredMixin, ListView):
+    model = List
+    template_name = "myhealthapp/lists/list.html"
