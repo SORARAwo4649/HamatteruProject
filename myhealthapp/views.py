@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView
@@ -42,7 +42,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
     model = List
     template_name = "myhealthapp/lists/create.html"
     form_class = ListForm
-    success_url = reverse_lazy("myhealthapp:home")
+    success_url = reverse_lazy("myhealthapp:lists_list")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -52,3 +52,17 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 class ListListView(LoginRequiredMixin, ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
+
+
+class ListDetailView(LoginRequiredMixin, DetailView):
+    model = List
+    template_name = "myhealthapp/lists/detail.html"
+
+
+class ListUpdateView(LoginRequiredMixin, UpdateView):
+    model = List
+    template_name = "myhealthapp/lists/update.html"
+    form_class = ListForm
+
+    def get_success_url(self):
+        return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
