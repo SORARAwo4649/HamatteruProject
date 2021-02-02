@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="container">
+
   <h1>リスト詳細</h1>
   <dl class="row">
     <dt class="col-sm-3">日付</dt>
@@ -10,8 +11,17 @@
     <dd class="col-sm-9">{{ list.go_to_bed }}</dd>
     <dt class="col-sm-3">起床時間</dt>
     <dd class="col-sm-9">{{ list.wakeup }}</dd>
-    <dt class="col-sm-3">睡眠時間</dt>
-    <dd class="col-sm-9">{{ list.go_to_bed - list.wakeup }}</dd>
+    <dt class="col-sm-3">コメント</dt>
+    <dd class="col-sm-9">{{ list.short_comment }}</dd>
   </dl>
-</div>
+
+  <a class="btn btn-primary"
+     href="{% url 'myhealthapp:lists_update' list.pk  %}"
+     role="button">編集</a>
+  <a class="btn btn-danger" href="{% url 'myhealthapp:lists_delete' list.pk  %}"
+     role="button">削除</a>
+  <a class="btn btn-success" href="{% url 'myhealthapp:input_to_sheet' list.pk  %}"
+     role="button">エクセル</a>
+
+
 {% endblock %}

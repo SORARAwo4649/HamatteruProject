@@ -5,10 +5,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, UpdateView, CreateView, ListView
+from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
+    DeleteView, TemplateView
+
+import gspread
+import json
+import os
 
 from .forms import ListForm
-from . models import List
+from .models import List
 
 
 def index(request):
@@ -66,3 +71,56 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
+
+
+class ListDeleteView(LoginRequiredMixin, DeleteView):
+    model = List
+    template_name = "myhealthapp/lists/delete.html"
+    form_class = ListForm
+    success_url = reverse_lazy("myhealthapp:lists_list")
+
+
+class InputToGoogleSheet(LoginRequiredMixin, TemplateView):
+    """
+    参考URL
+    https://tanuhack.com/operate-spreadsheet/#Google_Drive_API
+    """
+    model = List
+    template_name = 'myhealthapp/lists/verifysheets.html'
+    success_url = reverse_lazy('myhealthapp:lists_detail')
+
+    def post(self, request, *args, **kwargs):
+        # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
+        from oauth2client.service_account import ServiceAccountCredentials
+
+        # 2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
+        scope = ['https://spreadsheets.google.com/feeds',
+                 'https://www.googleapis.com/auth/drive']
+
+        # 認証情報設定
+        # ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
+        json_file = 'myhealthproject4649-be1d53621eaf.json'
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(
+            json_file, scopes=scope)
+
+        # OAuth2の資格情報を使用してGoogle APIにログインします。
+        gc = gspread.authorize(credentials)
+        # 共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
+        SPREADSHEET_KEY = '1B2qqeqonfsLeFrgo_B_KuoOJfBe2JzxfXtt0sKVejPs'
+
+        # 共有設定したスプレッドシートのシート1を開く
+        worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
+
+        print("*******************************")
+        print(request.POST)
+        date_into_buf = str(request.POST["date_into"])
+        go_to_bed_into_buf = request.POST["go_to_bed"]
+        wakeup_into_buf = request.POST["wakeup"]
+        short_comment_into_buf = request.POST["short_comment"]
+
+        worksheet.update_acell('A2', date_into_buf)
+        worksheet.update_acell('B2', go_to_bed_into_buf)
+        worksheet.update_acell('C2', wakeup_into_buf)
+        worksheet.update_acell('D2', short_comment_into_buf)
+
+        return render(request, "myhealthapp:lists/list.html")
