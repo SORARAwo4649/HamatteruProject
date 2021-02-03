@@ -4,6 +4,9 @@
 <div class="container">
   <h1>リスト一覧</h1>
   <div class="card-columns">
+    <a class="btn btn-primary"
+       href="{% url 'myhealthapp:lists_create' %}"
+       role="button">作成</a>
     {% for list in list_list %}
     <a href="{% url 'myhealthapp:lists_detail' list.pk %}" class="card">
       <div class="card">

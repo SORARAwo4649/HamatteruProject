@@ -16,6 +16,6 @@ urlpatterns = [
          name="lists_update"),
     path("lists/<int:pk>/delete/", views.ListDeleteView.as_view(),
          name="lists_delete"),
-    path("lists/<int:pk>/input_to_sheet", views.InputToGoogleSheet.as_view(),
+    path("lists/<int:pk>/input_to_sheet/", views.InputToGoogleSheet.as_view(),
          name="input_to_sheet"),
 ]

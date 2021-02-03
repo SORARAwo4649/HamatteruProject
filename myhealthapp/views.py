@@ -9,8 +9,6 @@ from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
     DeleteView, TemplateView
 
 import gspread
-import json
-import os
 
 from .forms import ListForm
 from .models import List
@@ -106,6 +104,7 @@ class InputToGoogleSheet(LoginRequiredMixin, TemplateView):
         # OAuth2の資格情報を使用してGoogle APIにログインします。
         gc = gspread.authorize(credentials)
         # 共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
+        # ↓はバレても問題ないやつ
         SPREADSHEET_KEY = '1B2qqeqonfsLeFrgo_B_KuoOJfBe2JzxfXtt0sKVejPs'
 
         # 共有設定したスプレッドシートのシート1を開く
@@ -123,4 +122,4 @@ class InputToGoogleSheet(LoginRequiredMixin, TemplateView):
         worksheet.update_acell('C2', wakeup_into_buf)
         worksheet.update_acell('D2', short_comment_into_buf)
 
-        return render(request, "myhealthapp:lists/list.html")
+        return redirect("/myhealthapp/lists/")
