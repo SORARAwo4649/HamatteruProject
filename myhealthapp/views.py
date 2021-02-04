@@ -70,7 +70,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 
         form = ListForm(request.POST)
         if form.is_valid():
-
+            form.save()
 
         # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
         from oauth2client.service_account import ServiceAccountCredentials
