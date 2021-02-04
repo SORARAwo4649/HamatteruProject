@@ -5,7 +5,28 @@
   <h1>リスト作成</h1>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+      {{ form.date.errors }}
+      <label for="{{ form.date.id_for_label }}">日付：</label>
+      {{ form.date }}
+    </div>
+    <div class="fieldWrapper">
+      {{ form.go_to_bed.errors }}
+      <label for="{{ form.go_to_bed.id_for_label }}">就寝時間：</label>
+      {{ form.go_to_bed }}
+    </div>
+    <div class="fieldWrapper">
+      {{ form.wakeup.errors }}
+      <label for="{{ form.wakeup.id_for_label }}">起床時間：</label>
+      {{ form.wakeup }}
+    </div>
+    <div class="fieldWrapper">
+      {{ form.short_comment.errors }}
+      <label for="{{ form.short_comment.id_for_label }}">コメント：</label>
+      {{ form.short_comment }}
+    </div>
+
     <button type="submit" class="btn btn-primary">送信</button>
   </form>
 </div>
