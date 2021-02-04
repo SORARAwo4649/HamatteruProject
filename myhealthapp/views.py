@@ -2,7 +2,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
@@ -72,41 +71,44 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         if form.is_valid():
             form.save()
 
-        # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
-        from oauth2client.service_account import ServiceAccountCredentials
+        try:
+            # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
+            from oauth2client.service_account import ServiceAccountCredentials
 
-        # 2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
-        scope = ['https://spreadsheets.google.com/feeds',
-                 'https://www.googleapis.com/auth/drive']
+            # 2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
+            scope = ['https://spreadsheets.google.com/feeds',
+                     'https://www.googleapis.com/auth/drive']
 
-        # 認証情報設定
-        # ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
-        json_file = 'myhealthproject4649-be1d53621eaf.json'
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(
-            json_file, scopes=scope)
+            # 認証情報設定
+            # ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
+            json_file = 'myhealthproject4649-be1d53621eaf.json'
+            credentials = ServiceAccountCredentials.from_json_keyfile_name(
+                json_file, scopes=scope)
 
-        # OAuth2の資格情報を使用してGoogle APIにログインします。
-        gc = gspread.authorize(credentials)
-        # 共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-        # ↓はバレても問題ないやつ
-        SPREADSHEET_KEY = '1B2qqeqonfsLeFrgo_B_KuoOJfBe2JzxfXtt0sKVejPs'
+            # OAuth2の資格情報を使用してGoogle APIにログインします。
+            gc = gspread.authorize(credentials)
+            # 共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
+            # ↓はバレても問題ないやつ
+            SPREADSHEET_KEY = '1B2qqeqonfsLeFrgo_B_KuoOJfBe2JzxfXtt0sKVejPs'
 
-        # 共有設定したスプレッドシートのシート1を開く
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
+            # 共有設定したスプレッドシートのシート1を開く
+            worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
 
-        print("*******************************")
-        print(request.POST)
-        date_into = request.POST["date"]
-        go_to_bed_into = request.POST["go_to_bed"]
-        wakeup_into = request.POST["wakeup"]
-        short_comment_into = request.POST["short_comment"]
+            print("*******************************")
+            print(request.POST)
+            date_into = request.POST["date"]
+            go_to_bed_into = request.POST["go_to_bed"]
+            wakeup_into = request.POST["wakeup"]
+            short_comment_into = request.POST["short_comment"]
 
-        worksheet.update_acell('A2', date_into)
-        worksheet.update_acell('B2', go_to_bed_into)
-        worksheet.update_acell('C2', wakeup_into)
-        worksheet.update_acell('D2', short_comment_into)
+            worksheet.update_acell('A2', date_into)
+            worksheet.update_acell('B2', go_to_bed_into)
+            worksheet.update_acell('C2', wakeup_into)
+            worksheet.update_acell('D2', short_comment_into)
 
-        return redirect("/myhealthapp/lists/", {"form": form})
+            return redirect("/myhealthapp/lists/", {"form": form})
+        except Exception as e:
+            print(e)
 
 
 class ListListView(LoginRequiredMixin, ListView):
@@ -133,50 +135,3 @@ class ListDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "myhealthapp/lists/delete.html"
     form_class = ListForm
     success_url = reverse_lazy("myhealthapp:lists_list")
-
-
-class InputToGoogleSheet(LoginRequiredMixin, TemplateView):
-    """
-    参考URL
-    https://tanuhack.com/operate-spreadsheet/#Google_Drive_API
-    """
-    model = List
-    template_name = 'myhealthapp/lists/verifysheets.html'
-    success_url = reverse_lazy('myhealthapp:lists_detail')
-
-    def post(self, request, *args, **kwargs):
-        # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
-        from oauth2client.service_account import ServiceAccountCredentials
-
-        # 2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
-        scope = ['https://spreadsheets.google.com/feeds',
-                 'https://www.googleapis.com/auth/drive']
-
-        # 認証情報設定
-        # ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
-        json_file = 'myhealthproject4649-be1d53621eaf.json'
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(
-            json_file, scopes=scope)
-
-        # OAuth2の資格情報を使用してGoogle APIにログインします。
-        gc = gspread.authorize(credentials)
-        # 共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-        # ↓はバレても問題ないやつ
-        SPREADSHEET_KEY = '1B2qqeqonfsLeFrgo_B_KuoOJfBe2JzxfXtt0sKVejPs'
-
-        # 共有設定したスプレッドシートのシート1を開く
-        worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
-
-        print("*******************************")
-        print(request.POST)
-        date_into_buf = str(request.POST["date_into"])
-        go_to_bed_into_buf = request.POST["go_to_bed"]
-        wakeup_into_buf = request.POST["wakeup"]
-        short_comment_into_buf = request.POST["short_comment"]
-
-        worksheet.update_acell('A2', date_into_buf)
-        worksheet.update_acell('B2', go_to_bed_into_buf)
-        worksheet.update_acell('C2', wakeup_into_buf)
-        worksheet.update_acell('D2', short_comment_into_buf)
-
-        return redirect("/myhealthapp/lists/")
