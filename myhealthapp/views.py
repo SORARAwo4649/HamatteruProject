@@ -101,14 +101,25 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             wakeup_into = request.POST["wakeup"]
             short_comment_into = request.POST["short_comment"]
 
-            worksheet.update_acell('A2', date_into)
-            worksheet.update_acell('B2', go_to_bed_into)
-            worksheet.update_acell('C2', wakeup_into)
-            worksheet.update_acell('D2', short_comment_into)
+            # 日付ごとのセルの位置を決める前処理
+            date_date = date_into.split("-")
 
-            return redirect("/myhealthapp/lists/", {"form": form})
+            # 日付によってセルの位置を変更する処理
+            date_cell_position = "A" + str(int(date_date[2]) + 1)
+            bed_cell_position = "B" + str(int(date_date[2]) + 1)
+            wakeup_cell_position = "C" + str(int(date_date[2]) + 1)
+            comment_cell_position = "D" + str(int(date_date[2]) + 1)
+
+            # APIを使ったスプレッドシートへの書き込み
+            worksheet.update_acell(date_cell_position, date_into)
+            worksheet.update_acell(bed_cell_position, go_to_bed_into)
+            worksheet.update_acell(wakeup_cell_position, wakeup_into)
+            worksheet.update_acell(comment_cell_position, short_comment_into)
+
         except Exception as e:
             print(e)
+
+        return redirect("/myhealthapp/lists/", {"form": form})
 
 
 class ListListView(LoginRequiredMixin, ListView):
