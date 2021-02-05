@@ -126,6 +126,9 @@ class ListListView(LoginRequiredMixin, ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
 
+    def get_queryset(self):
+        return List.objects.order_by("date").reverse()
+
 
 class ListDetailView(LoginRequiredMixin, DetailView):
     model = List
