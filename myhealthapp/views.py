@@ -46,6 +46,9 @@ class ListCreateView(LoginRequiredMixin, CreateView):
     template_name = "myhealthapp/lists/create.html"
     form_class = ListForm
 
+    def calculation_sleep(self, request):
+        result = List.objects.annotate(sleep = F(wakeup) - F(go_to_bed))
+
     """
         def form_valid(self, form):
         form.instance.user = self.request.user

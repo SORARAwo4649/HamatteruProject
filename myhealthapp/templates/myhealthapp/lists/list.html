@@ -9,17 +9,21 @@
        role="button">作成</a>
 
     {% for list in list_list %}
-    <a href="{% url 'myhealthapp:lists_detail' list.pk %}" class="card">
-      <div class="card">
-        <div class="card-body">
+
+      <div class="card bg-light mb-3" style="max-width: 50rem;">
+        <a class="card-header" href="{% url 'myhealthapp:lists_detail' list.pk %}">
           <h5 class="card-title">{{ list.date }}</h5>
+        </a>
+        <div class="card-body">
+
           <footer>
             <small class="datetime">就寝時間: {{ list.go_to_bed }}</small>
             <small class="datetime">起床時間: {{ list.wakeup }}</small>
+            <small class="datetime">時間: {{ list.go_to_bed - list.wakeup }}</small>
           </footer>
         </div>
       </div>
-    </a>
+
     {% endfor %}
   </div>
 </div>
