@@ -2,13 +2,15 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
     DeleteView, TemplateView
 
 import gspread
+import time
+import datetime
 
 from .forms import ListForm
 from .models import List
@@ -46,15 +48,6 @@ class ListCreateView(LoginRequiredMixin, CreateView):
     template_name = "myhealthapp/lists/create.html"
     form_class = ListForm
 
-    def calculation_sleep(self, request):
-        result = List.objects.annotate(sleep = F(wakeup) - F(go_to_bed))
-
-    """
-        def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    """
-
     def post(self, request, *args, **kwargs):
         print("POSTPOST")
         """
@@ -63,6 +56,12 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         
         Djangoのフォームにモデルのレコードを初期値として入れたい
         https://teratail.com/questions/259820
+        
+        モデルの操作
+        https://opendata-web.site/blog/entry/22/
+        
+        フォームAPIのリファレンス
+        https://docs.djangoproject.com/en/3.1/ref/forms/api/
 
         :param request:
         :param args:
@@ -72,7 +71,33 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 
         form = ListForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance_form = form.save()
+
+            # 睡眠時間の計算
+            print("######################")
+            print(instance_form.id)
+            print(form.cleaned_data)
+            go_to_bed_time = form.cleaned_data["go_to_bed"]
+            wake_up_time = form.cleaned_data["wakeup"]
+
+            # 日付の計算をできるようにデータの加工
+            go_to_bed_time = datetime.datetime.combine(
+                datetime.date.today(), go_to_bed_time)\
+                             - datetime.timedelta(days=1)
+            wake_up_time = datetime.datetime.combine(
+                datetime.date.today(), wake_up_time)
+
+            print(wake_up_time - go_to_bed_time)
+            instance_id = str(instance_form.id)
+
+            insert_sleep_time = List.objects.filter(id=instance_id).first()
+            print("##############################")
+            print(insert_sleep_time.sleep_time)
+            insert_sleep_time.sleep_time = str(wake_up_time - go_to_bed_time)
+            print(insert_sleep_time.sleep_time)
+            print(type(insert_sleep_time.sleep_time))
+
+            insert_sleep_time.save()
 
         try:
             # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
