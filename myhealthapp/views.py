@@ -74,9 +74,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             instance_form = form.save()
 
             # 睡眠時間の計算
-            print("######################")
-            print(instance_form.id)
-            print(form.cleaned_data)
+            # フォームで入力した時間データを取得
             go_to_bed_time = form.cleaned_data["go_to_bed"]
             wake_up_time = form.cleaned_data["wakeup"]
 
@@ -87,16 +85,14 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             wake_up_time = datetime.datetime.combine(
                 datetime.date.today(), wake_up_time)
 
-            print(wake_up_time - go_to_bed_time)
+            # DBのIDを取得
             instance_id = str(instance_form.id)
 
+            # IDより編集するレコードをインスタンス化
             insert_sleep_time = List.objects.filter(id=instance_id).first()
-            print("##############################")
-            print(insert_sleep_time.sleep_time)
+            # 睡眠時間の計算結果を文字列に変換してからupdate
             insert_sleep_time.sleep_time = str(wake_up_time - go_to_bed_time)
-            print(insert_sleep_time.sleep_time)
-            print(type(insert_sleep_time.sleep_time))
-
+            # DBに保存
             insert_sleep_time.save()
 
         try:
