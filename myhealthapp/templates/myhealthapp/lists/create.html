@@ -1,14 +1,21 @@
 {% extends "myhealthapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
 
 {% block content %}
 <div class="container">
   <h1>リスト作成</h1>
   <form method="post">
     {% csrf_token %}
+    {{ filter.form|crispy }}
+
     {{ form.non_field_errors }}
     <div class="fieldWrapper">
       {{ form.date.errors }}
-      <label for="{{ form.date.id_for_label }}">日付：</label>
+      <label for="{{ form.date.id_for_label }}" id="id_date">日付：</label>
       {{ form.date }}
     </div>
     <div class="fieldWrapper">
@@ -26,8 +33,33 @@
       <label for="{{ form.short_comment.id_for_label }}">コメント：</label>
       {{ form.short_comment }}
     </div>
+    <div class="fieldWrapper">
+      {{ form.sleep_quality.errors }}
+      <label for="{{ form.sleep_quality.id_for_label }}">睡眠の質：</label>
+      {{ form.sleep_quality }}
+    </div>
 
     <button type="submit" class="btn btn-primary">送信</button>
   </form>
+
 </div>
 {% endblock %}
+
+<script>
+  $(function () {
+    // 日付は、年-月-日 の形式でお願いする。
+    let dateFormat = 'yy-mm-dd';
+    $('#date').datepicker({
+      dateFormat: dateFormat
+    });
+  });
+</script>
+
+.datepicker-days th.dow:first-child,
+.datepicker-days td:first-child {
+color: #f00;
+}
+.datepicker-days th.dow:last-child,
+.datepicker-days td:last-child {
+color: #00f;
+}
