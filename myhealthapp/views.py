@@ -6,10 +6,9 @@ from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
-    DeleteView, TemplateView
+    DeleteView
 
 import gspread
-import time
 import datetime
 
 from .forms import ListForm
@@ -20,7 +19,6 @@ def index(request):
     return render(request, "myhealthapp/index.html")
 
 
-@login_required
 def home(request):
     return render(request, "myhealthapp/home.html")
 
@@ -43,7 +41,7 @@ def signup(request):
     return render(request, "myhealthapp/signup.html", context)
 
 
-class ListCreateView(LoginRequiredMixin, CreateView):
+class ListCreateView(CreateView):
     model = List
     template_name = "myhealthapp/lists/create.html"
     form_class = ListForm
@@ -146,7 +144,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         return redirect("/myhealthapp/lists/", {"form": form})
 
 
-class ListListView(LoginRequiredMixin, ListView):
+class ListListView(ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
 
@@ -154,12 +152,12 @@ class ListListView(LoginRequiredMixin, ListView):
         return List.objects.order_by("date").reverse()
 
 
-class ListDetailView(LoginRequiredMixin, DetailView):
+class ListDetailView(DetailView):
     model = List
     template_name = "myhealthapp/lists/detail.html"
 
 
-class ListUpdateView(LoginRequiredMixin, UpdateView):
+class ListUpdateView(UpdateView):
     model = List
     template_name = "myhealthapp/lists/update.html"
     form_class = ListForm
@@ -168,7 +166,7 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
 
 
-class ListDeleteView(LoginRequiredMixin, DeleteView):
+class ListDeleteView(DeleteView):
     model = List
     template_name = "myhealthapp/lists/delete.html"
     form_class = ListForm
