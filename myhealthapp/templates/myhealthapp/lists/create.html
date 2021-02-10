@@ -13,14 +13,17 @@
     {{ filter.form|crispy }}
 
     {{ form.non_field_errors }}
-    <div class="fieldWrapper">
+
+    <div class="fieldWrapper" id="date">
       {{ form.date.errors }}
       <label for="{{ form.date.id_for_label }}" id="id_date">日付：</label>
       {{ form.date }}
     </div>
+
     <div class="fieldWrapper">
       {{ form.go_to_bed.errors }}
-      <label for="{{ form.go_to_bed.id_for_label }}">就寝時間：</label>
+      <label for="{{ form.go_to_bed.id_for_label }}"
+             id="go_to_bed">就寝時間：</label>
       {{ form.go_to_bed }}
     </div>
     <div class="fieldWrapper">
@@ -44,22 +47,3 @@
 
 </div>
 {% endblock %}
-
-<script>
-  $(function () {
-    // 日付は、年-月-日 の形式でお願いする。
-    let dateFormat = 'yy-mm-dd';
-    $('#date').datepicker({
-      dateFormat: dateFormat
-    });
-  });
-</script>
-
-.datepicker-days th.dow:first-child,
-.datepicker-days td:first-child {
-color: #f00;
-}
-.datepicker-days th.dow:last-child,
-.datepicker-days td:last-child {
-color: #00f;
-}

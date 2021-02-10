@@ -2,6 +2,7 @@ from django import forms
 
 from .models import List
 import bootstrap_datepicker_plus as datetimepicker
+from bootstrap_datepicker_plus import TimePickerInput
 
 
 class ListForm(forms.ModelForm):
@@ -20,6 +21,7 @@ class ListForm(forms.ModelForm):
             "sleep_quality",
             "staff_comment"
         )
+
         widgets = {
             "date": datetimepicker.DatePickerInput(
                 format='%Y-%m-%d',
@@ -27,5 +29,7 @@ class ListForm(forms.ModelForm):
                     'locale': 'ja',
                     'dayViewHeaderFormat': 'YYYY年 MMMM',
                 }
-            )
+            ),
+            "go_to_bed": TimePickerInput(),
+            "wakeup": TimePickerInput(),
         }

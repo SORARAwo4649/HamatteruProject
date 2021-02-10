@@ -4,8 +4,8 @@ from django.db import models
 
 class List(models.Model):
     date = models.DateField("日付")
-    go_to_bed = models.TimeField("就寝時間")
-    wakeup = models.TimeField("起床時間")
+    go_to_bed = models.DateTimeField("就寝時間")
+    wakeup = models.DateTimeField("起床時間")
     short_comment = models.TextField("感想", max_length=200)
 
     # 追加分①
