@@ -11,37 +11,8 @@
   <form method="post">
     {% csrf_token %}
     {{ filter.form|crispy }}
-
     {{ form.non_field_errors }}
-
-    <div class="fieldWrapper" id="date">
-      {{ form.date.errors }}
-      <label for="{{ form.date.id_for_label }}" id="id_date">日付：</label>
-      {{ form.date }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.go_to_bed.errors }}
-      <label for="{{ form.go_to_bed.id_for_label }}"
-             id="go_to_bed">就寝時間：</label>
-      {{ form.go_to_bed }}
-    </div>
-    <div class="fieldWrapper">
-      {{ form.wakeup.errors }}
-      <label for="{{ form.wakeup.id_for_label }}">起床時間：</label>
-      {{ form.wakeup }}
-    </div>
-    <div class="fieldWrapper">
-      {{ form.short_comment.errors }}
-      <label for="{{ form.short_comment.id_for_label }}">コメント：</label>
-      {{ form.short_comment }}
-    </div>
-    <div class="fieldWrapper">
-      {{ form.sleep_quality.errors }}
-      <label for="{{ form.sleep_quality.id_for_label }}">睡眠の質：</label>
-      {{ form.sleep_quality }}
-    </div>
-
+    {{ form.as_p }}
     <button type="submit" class="btn btn-primary">送信</button>
   </form>
 

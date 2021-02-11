@@ -3,28 +3,36 @@
 {% block content %}
 <div class="container">
   <h1>リスト一覧</h1>
-  <div class="card-columns">
+  <div>
     <a class="btn btn-primary"
        href="{% url 'myhealthapp:lists_create' %}"
        role="button">作成</a>
 
     {% for list in list_list %}
-
-      <div class="card bg-light mb-3" style="max-width: 50rem;">
-        <a class="card-header" href="{% url 'myhealthapp:lists_detail' list.pk %}">
-          <h5 class="card-title">{{ list.date }}</h5>
-        </a>
-        <div class="card-body">
-
-          <footer>
-
-            <small class="datetime">就寝時間: {{ list.go_to_bed }}</small>
-            <small class="datetime">起床時間: {{ list.wakeup }}</small>
-            # {{ list.sleep_time }}
-
-          </footer>
-        </div>
-      </div>
+    <ui>
+      <li>
+        {{ list.date }}
+      </li>
+      <li>
+        {{ list.go_to_bed }}
+      </li>
+      <li>
+        {{ list.wakeup }}
+      </li>
+      <li>
+        {{ list.sleep_quality }}
+      </li>
+      <li>
+        {{ list.sleep_time }}
+      </li>
+      <li>
+        {{ list.short_comment }}
+      </li>
+      <li>
+        {{ list.staff_comment }}
+      </li>
+    </ui>
+    <br>
 
     {% endfor %}
   </div>

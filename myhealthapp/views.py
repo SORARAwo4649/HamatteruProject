@@ -10,6 +10,7 @@ from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
 
 import gspread
 import datetime
+import time
 
 from .forms import ListForm
 from .models import List
@@ -67,8 +68,16 @@ class ListCreateView(CreateView):
         :return:
         """
 
-        form = ListForm(request.POST)
+        form = ListForm(data=request.POST)
+        # print(form)
+        print(form.is_valid())
+        if form.is_valid() is False:
+            for ele in form:
+                print("******************************")
+                print(ele)
+
         if form.is_valid():
+            print("通った")
             instance_form = form.save()
 
             # 睡眠時間の計算
@@ -76,21 +85,41 @@ class ListCreateView(CreateView):
             go_to_bed_time = form.cleaned_data["go_to_bed"]
             wake_up_time = form.cleaned_data["wakeup"]
 
-            # 日付の計算をできるようにデータの加工
             go_to_bed_time = datetime.datetime.combine(
-                datetime.date.today(), go_to_bed_time)\
-                             - datetime.timedelta(days=1)
+                datetime.date.today(), go_to_bed_time
+            )
             wake_up_time = datetime.datetime.combine(
-                datetime.date.today(), wake_up_time)
+                datetime.date.today(), wake_up_time
+            )
+
+            print(type(go_to_bed_time))
+            if go_to_bed_time < wake_up_time:
+                sleep_time_time = wake_up_time - go_to_bed_time
+            else:
+                sleep_time_time\
+                    = wake_up_time - go_to_bed_time - datetime.timedelta(days=-1)
+
+            print(f'睡眠時間：{sleep_time_time}')
+
+            def timedelta_to_hm(td):
+                sec = td.total_seconds()
+                hh = int(sec // 3600)
+                mm = int(sec % 3600 // 60)
+                return hh, mm
+
+            sleep_time_h, sleep_time_m = timedelta_to_hm(sleep_time_time)
+            print(f'{sleep_time_h}:{sleep_time_m}')
 
             # DBのIDを取得
             instance_id = str(instance_form.id)
+            print(instance_form.id)
 
             # IDより編集するレコードをインスタンス化
             insert_sleep_time = List.objects.filter(id=instance_id).first()
             # 睡眠時間の計算結果を文字列に変換してからupdate
-            insert_sleep_time.sleep_time = str(wake_up_time - go_to_bed_time)
+            insert_sleep_time.sleep_time = str(f'{sleep_time_h}:{sleep_time_m}')
             # DBに保存
+            print(f'{sleep_time_h}:{sleep_time_m}')
             insert_sleep_time.save()
 
         try:
