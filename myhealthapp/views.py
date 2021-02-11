@@ -85,6 +85,7 @@ class ListCreateView(CreateView):
             go_to_bed_time = form.cleaned_data["go_to_bed"]
             wake_up_time = form.cleaned_data["wakeup"]
 
+            # 時間の差分を計算できるように加工
             go_to_bed_time = datetime.datetime.combine(
                 datetime.date.today(), go_to_bed_time
             )
@@ -92,15 +93,14 @@ class ListCreateView(CreateView):
                 datetime.date.today(), wake_up_time
             )
 
-            print(type(go_to_bed_time))
+            # 日をまたぐかどうかで分岐
             if go_to_bed_time < wake_up_time:
                 sleep_time_time = wake_up_time - go_to_bed_time
             else:
                 sleep_time_time\
                     = wake_up_time - go_to_bed_time - datetime.timedelta(days=-1)
 
-            print(f'睡眠時間：{sleep_time_time}')
-
+            # timedeltaから時間と分に直す関数
             def timedelta_to_hm(td):
                 sec = td.total_seconds()
                 hh = int(sec // 3600)
@@ -108,7 +108,6 @@ class ListCreateView(CreateView):
                 return hh, mm
 
             sleep_time_h, sleep_time_m = timedelta_to_hm(sleep_time_time)
-            print(f'{sleep_time_h}:{sleep_time_m}')
 
             # DBのIDを取得
             instance_id = str(instance_form.id)
@@ -116,8 +115,10 @@ class ListCreateView(CreateView):
 
             # IDより編集するレコードをインスタンス化
             insert_sleep_time = List.objects.filter(id=instance_id).first()
+
             # 睡眠時間の計算結果を文字列に変換してからupdate
             insert_sleep_time.sleep_time = str(f'{sleep_time_h}:{sleep_time_m}')
+
             # DBに保存
             print(f'{sleep_time_h}:{sleep_time_m}')
             insert_sleep_time.save()
