@@ -16,6 +16,7 @@ from .forms import ListForm
 from .models import List
 
 
+@login_required
 def index(request):
     return render(request, "myhealthapp/index.html")
 
@@ -42,7 +43,7 @@ def signup(request):
     return render(request, "myhealthapp/signup.html", context)
 
 
-class ListCreateView(CreateView):
+class ListCreateView(LoginRequiredMixin, CreateView):
     model = List
     template_name = "myhealthapp/lists/create.html"
     form_class = ListForm
@@ -174,7 +175,7 @@ class ListCreateView(CreateView):
         return redirect("/myhealthapp/lists/", {"form": form})
 
 
-class ListListView(ListView):
+class ListListView(LoginRequiredMixin, ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
 
@@ -182,12 +183,12 @@ class ListListView(ListView):
         return List.objects.order_by("date").reverse()
 
 
-class ListDetailView(DetailView):
+class ListDetailView(LoginRequiredMixin, DetailView):
     model = List
     template_name = "myhealthapp/lists/detail.html"
 
 
-class ListUpdateView(UpdateView):
+class ListUpdateView(LoginRequiredMixin, UpdateView):
     model = List
     template_name = "myhealthapp/lists/update.html"
     form_class = ListForm
@@ -196,7 +197,7 @@ class ListUpdateView(UpdateView):
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
 
 
-class ListDeleteView(DeleteView):
+class ListDeleteView(LoginRequiredMixin, DeleteView):
     model = List
     template_name = "myhealthapp/lists/delete.html"
     form_class = ListForm
