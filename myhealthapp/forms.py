@@ -46,6 +46,14 @@ class ListForm(forms.ModelForm):
                     'dayViewHeaderFormat': 'YYYY年 MMMM',
                 },
             ),
-            "go_to_bed": DateTimePickerInput(),
-            "wakeup": DateTimePickerInput(),
+            "go_to_bed": DateTimePickerInput(
+                options={
+                    "sideBySide": True,
+                }
+            ),
+            "wakeup": DateTimePickerInput(
+                options={
+                    "sideBySide": True,
+                }
+            ),
         }
