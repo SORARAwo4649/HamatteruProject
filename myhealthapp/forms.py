@@ -1,10 +1,9 @@
 from django import forms
 
 from .models import List
-import bootstrap_datepicker_plus as datetimepicker
-from bootstrap_datepicker_plus import TimePickerInput
+from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 
-import datetime
+import datetime as dt
 
 
 class ListForm(forms.ModelForm):
@@ -15,11 +14,16 @@ class ListForm(forms.ModelForm):
     datetimepicker 公式Doc
     https://django-bootstrap-datepicker-plus.readthedocs.io/en/latest/index.html?highlight=time#
     """
+
     def __init__(self, *args, **kwargs):
         super(ListForm, self).__init__(*args, **kwargs)
-        self.fields["date"].initial = datetime.date.today()
-        self.fields["go_to_bed"].initial = "21:00"
-        self.fields["wakeup"].initial = "8:00"
+        self.fields["date"].initial = dt.date.today()
+        self.fields["go_to_bed"].initial \
+            = dt.datetime.now().replace(
+            hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=-3)
+        self.fields["wakeup"].initial \
+            = dt.datetime.now().replace(
+            hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=8)
 
         self.fields["short_comment"].initial = ""
         self.fields["sleep_quality"].initial = 10
@@ -36,13 +40,13 @@ class ListForm(forms.ModelForm):
         )
 
         widgets = {
-            "date": datetimepicker.DatePickerInput(
+            "date": DatePickerInput(
                 format='%Y-%m-%d',
                 options={
                     'locale': 'ja',
                     'dayViewHeaderFormat': 'YYYY年 MMMM',
                 },
             ),
-            "go_to_bed": TimePickerInput(),
-            "wakeup": TimePickerInput(),
+            "go_to_bed": DateTimePickerInput(),
+            "wakeup": DateTimePickerInput(),
         }

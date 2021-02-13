@@ -9,7 +9,7 @@ from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
     DeleteView
 
 import gspread
-import datetime
+import datetime as dt
 import time
 
 from .forms import ListForm
@@ -69,7 +69,15 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         :return:
         """
 
-        form = ListForm(data=request.POST)
+        initial_dict = dict(
+            date=dt.date.today(),
+            go_to_bed=dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=-3),
+            wakeup=dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=8),
+            short_comment="",
+            sleep_quality=10,
+        )
+
+        form = ListForm(request.POST)
         # print(form)
         print(form.is_valid())
         if form.is_valid() is False:
@@ -86,6 +94,14 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             go_to_bed_time = form.cleaned_data["go_to_bed"]
             wake_up_time = form.cleaned_data["wakeup"]
 
+            print(go_to_bed_time)
+            print(wake_up_time)
+
+            sleep_time_time = wake_up_time - go_to_bed_time
+
+            print(f'睡眠時間:{sleep_time_time}')
+
+            """
             # 時間の差分を計算できるように加工
             go_to_bed_time = datetime.datetime.combine(
                 datetime.date.today(), go_to_bed_time
@@ -109,7 +125,10 @@ class ListCreateView(LoginRequiredMixin, CreateView):
                 return hh, mm
 
             sleep_time_h, sleep_time_m = timedelta_to_hm(sleep_time_time)
+            """
 
+
+            """
             # DBのIDを取得
             instance_id = str(instance_form.id)
             print(instance_form.id)
@@ -123,6 +142,8 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             # DBに保存
             print(f'{sleep_time_h}:{sleep_time_m}')
             insert_sleep_time.save()
+            """
+
 
         try:
             # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。

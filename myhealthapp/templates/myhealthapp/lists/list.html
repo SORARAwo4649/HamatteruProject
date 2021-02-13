@@ -7,32 +7,26 @@
     <a class="btn btn-primary"
        href="{% url 'myhealthapp:lists_create' %}"
        role="button">作成</a>
+    <br>
 
     {% for list in list_list %}
     <ui>
-      <li>
-        {{ list.date }}
-      </li>
-      <li>
-        {{ list.go_to_bed }}
-      </li>
-      <li>
-        {{ list.wakeup }}
-      </li>
-      <li>
-        {{ list.sleep_quality }}
-      </li>
-      <li>
-        {{ list.sleep_time }}
-      </li>
-      <li>
-        {{ list.short_comment }}
-      </li>
-      <li>
-        {{ list.staff_comment }}
-      </li>
+      <div class="card">
+        <h5 class="card-header">{{ list.date }}</h5>
+        <div class="card-body">
+          <h5 class="card-title">就寝時間：{{ list.go_to_bed }}</h5>
+          <h5 class="card-title">起床時間：{{ list.wakeup }}</h5>
+          <h5 class="card-title">睡眠の質：{{ list.sleep_quality }}</h5>
+          <h5 class="card-title">睡眠時間：{{ list.sleep_quality }}</h5>
+          <p class="card-text">コメント：{{ list.short_comment }}</p>
+          <p class="card-text">スタッフより：{{ list.staff_comment }}</p>
+          <a href="{% url 'myhealthapp:lists_detail' list.pk  %}"
+             class="btn btn-primary">編集</a>
+        </div>
+      </div>
     </ui>
     <br>
+
 
     {% endfor %}
   </div>
