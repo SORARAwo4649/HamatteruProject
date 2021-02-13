@@ -107,6 +107,8 @@ class ListCreateView(LoginRequiredMixin, CreateView):
                 sleep_time_time\
                     = wake_up_time - go_to_bed_time - datetime.timedelta(days=-1)
 
+            
+            """
             # timedeltaから時間と分に直す関数
             def timedelta_to_hm(td):
                 sec = td.total_seconds()
@@ -115,10 +117,6 @@ class ListCreateView(LoginRequiredMixin, CreateView):
                 return hh, mm
 
             sleep_time_h, sleep_time_m = timedelta_to_hm(sleep_time_time)
-            """
-
-
-            """
             # DBのIDを取得
             instance_id = str(instance_form.id)
             print(instance_form.id)
@@ -129,11 +127,9 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             # 睡眠時間の計算結果を文字列に変換してからupdate
             insert_sleep_time.sleep_time = str(f'{sleep_time_h}:{sleep_time_m}')
 
-            # DBに保存
-            print(f'{sleep_time_h}:{sleep_time_m}')
-            insert_sleep_time.save()
-            """
 
+            # DBに保存
+            insert_sleep_time.save()
 
         try:
             # ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
