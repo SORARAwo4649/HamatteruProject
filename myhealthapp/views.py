@@ -2,15 +2,13 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, resolve_url, get_object_or_404
+from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
     DeleteView
 
 import gspread
-import datetime as dt
-import time
 
 from .forms import ListForm
 from .models import List
@@ -68,14 +66,6 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         :param kwargs:
         :return:
         """
-
-        initial_dict = dict(
-            date=dt.date.today(),
-            go_to_bed=dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=-3),
-            wakeup=dt.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(hours=8),
-            short_comment="",
-            sleep_quality=10,
-        )
 
         form = ListForm(request.POST)
         # print(form)

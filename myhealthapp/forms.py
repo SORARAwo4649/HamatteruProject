@@ -41,7 +41,6 @@ class ListForm(forms.ModelForm):
 
         widgets = {
             "date": DatePickerInput(
-                format='%Y-%m-%d',
                 options={
                     'locale': 'ja',
                     'dayViewHeaderFormat': 'YYYY年 MMMM',
