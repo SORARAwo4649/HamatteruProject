@@ -182,10 +182,10 @@ class ListCreateView(LoginRequiredMixin, CreateView):
                 print(e)
 
             # return redirect("/myhealthapp/lists/", {"form": form})
-            return redirect("myhealthapp/lists/list.html", {"form": form})
+            return redirect("myhealthapp/lists/", {"form": form})
 
         else:
-            return redirect("/myhealthapp/lists/list.html", {"form": form})
+            return redirect("/myhealthapp/lists/", {"form": form})
 
 
 class ListListView(LoginRequiredMixin, ListView):
