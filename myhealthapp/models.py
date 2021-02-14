@@ -3,7 +3,7 @@ from django.db import models
 
 
 class List(models.Model):
-    date = models.DateField("date")
+    date = models.DateField("date", unique=True)
     go_to_bed = models.DateTimeField("go_to_bed")
     wakeup = models.DateTimeField("wakeup")
     short_comment = models.TextField("short_comment", max_length=200)
