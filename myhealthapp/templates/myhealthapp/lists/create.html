@@ -5,6 +5,8 @@
 {{ form.media }}
 {% endblock %}
 
+
+
 {% block content %}
 <div class="container">
   <h1>リスト作成</h1>
@@ -18,3 +20,50 @@
 
 </div>
 {% endblock %}
+
+{% for field in form %}
+  <div class="field">
+    {{ field }}
+  </div>
+  {% if field.errors %}
+    {# field に関連する error messages は errors 属性にリスト形式で入っている #}
+    {{ field.errors.0 }}
+  {% endif %}
+{% endfor %}
+
+{% if form.errors %}
+<div class="ui red message">
+  <ul class="list">
+    {% for form_error in form.errors %}
+    <li>{{ form_error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="ui red message">
+  <ul class="list">
+    {% for non_field_error in form.non_field_errors %}
+      <li>エラー文：{{ non_field_error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="container">
+  <ul class="alert alert-danger list-unstyled">
+    <li style="list-style-type: none;">
+      <ul class="alert alert-danger list-unstyled">{% for error in form.non_field_errors %}
+        <li>エラー文：{{ error }}</li>
+      </ul>
+    </li>
+  </ul>
+  {% endfor %}
+  <a class="btn btn-success" href="{% url 'myhealthapp:lists_list' %}"
+     role="button">リスト一覧</a>
+  <a class="btn btn-primary" href="{% url 'myhealthapp:lists_create' %}"
+     role="button">入力フォームへ</a>
+</div>
+{% endif %}

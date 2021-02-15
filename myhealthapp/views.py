@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
-    DeleteView
+    DeleteView, TemplateView
 
 import gspread
 
@@ -182,10 +182,18 @@ class ListCreateView(LoginRequiredMixin, CreateView):
                 print(e)
 
             # return redirect("/myhealthapp/lists/", {"form": form})
-            return redirect("myhealthapp/lists/", {"form": form})
+            return redirect("myhealthapp:lists_list")
 
         else:
-            return redirect("/myhealthapp/lists/", {"form": form})
+            print("エラー文")
+            print(form.errors)
+            # print(form.non_field_errors())
+            # return render(request, "myhealthapp/lists/form_failed.html", {"form": form})
+            return render(
+                request,
+                "myhealthapp/lists/create.html",
+                {"form": form}
+            )
 
 
 class ListListView(LoginRequiredMixin, ListView):
@@ -215,3 +223,8 @@ class ListDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "myhealthapp/lists/delete.html"
     form_class = ListForm
     success_url = reverse_lazy("myhealthapp:lists_list")
+
+
+@login_required
+def form_failed(request):
+    return render(request, "/myhealthapp/lists/form_failed.html")
