@@ -39,6 +39,10 @@ class ListForm(forms.ModelForm):
             "sleep_quality",
         )
 
+        """
+        options のドキュメント
+        https://getdatepicker.com/4/Options/
+        """
         widgets = {
             "date": DatePickerInput(
                 options={
@@ -49,11 +53,13 @@ class ListForm(forms.ModelForm):
             "go_to_bed": DateTimePickerInput(
                 options={
                     "sideBySide": True,
+                    "stepping": 15,
                 }
             ),
             "wakeup": DateTimePickerInput(
                 options={
                     "sideBySide": True,
-                }
+                    "stepping": 15,
+                },
             ),
         }
