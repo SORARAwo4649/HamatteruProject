@@ -6,6 +6,14 @@ from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 import datetime as dt
 
 
+class StaffCommentForm(forms.ModelForm):
+    class Meta:
+        model = List
+        fields = (
+            "staff_comment",
+        )
+
+
 class ListForm(forms.ModelForm):
     """
     入力の遊び

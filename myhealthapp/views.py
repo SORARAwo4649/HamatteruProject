@@ -10,7 +10,7 @@ from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
 
 import gspread
 
-from .forms import ListForm
+from .forms import ListForm, StaffCommentForm
 from .models import List
 
 
@@ -205,6 +205,7 @@ class ListListView(LoginRequiredMixin, ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
 
+    # 更新順にリスト表示
     def get_queryset(self):
         return List.objects.order_by("date").reverse()
 
@@ -221,6 +222,15 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
+
+
+class StaffCommentView(LoginRequiredMixin, UpdateView):
+    model = List
+    template_name = "myhealthapp/lists/staff_comments.html"
+    form_class = StaffCommentForm
+
+    def get_success_url(self):
+        return resolve_url("myhealthapp:lists_detail", pk=self.kwargs["pk"])
 
 
 class ListDeleteView(LoginRequiredMixin, DeleteView):

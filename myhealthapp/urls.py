@@ -17,4 +17,6 @@ urlpatterns = [
     path("lists/<int:pk>/delete/", views.ListDeleteView.as_view(),
          name="lists_delete"),
     path("list/form_failed/", views.form_failed, name="failed"),
+    path("lists/<int:pk>/staff_comment/", views.StaffCommentView.as_view(),
+         name="staff_comment"),
 ]
