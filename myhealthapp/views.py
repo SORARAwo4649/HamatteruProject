@@ -187,6 +187,11 @@ class ListCreateView(LoginRequiredMixin, CreateView):
         else:
             print("エラー文")
             print(form.errors)
+            if form.errors:
+                for error in form.errors:
+                    print(error)
+                print("エラーが表示されるはず")
+
             # print(form.non_field_errors())
             # return render(request, "myhealthapp/lists/form_failed.html", {"form": form})
             return render(
