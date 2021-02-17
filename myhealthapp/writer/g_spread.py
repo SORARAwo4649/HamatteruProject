@@ -5,8 +5,7 @@ from ..models import List
 
 
 class GSpreadWriter(models.Model):
-    def write_to_spread(self, model_set, value):
-        print("１###################################")
+    def write_to_spread(self, model_set):
         print(model_set)
 
         # print(List.objects.get(id=self.instance_id))
@@ -37,7 +36,6 @@ class GSpreadWriter(models.Model):
             worksheet = gc.open_by_key(SPREADSHEET_KEY).sheet1
 
             date_into = model_set["date"].strftime('%Y/%m/%d')
-            print(date_into)
             go_to_bed_into = model_set["go_to_bed"].strftime('%Y/%m/%d %H:%M')
             wakeup_into = model_set["wakeup"].strftime('%Y/%m/%d %H:%M')
             sleep_quality_into = model_set["sleep_quality"]
@@ -45,7 +43,6 @@ class GSpreadWriter(models.Model):
             short_comment_into = model_set["short_comment"]
             staff_comment_into = model_set["staff_comment"]
 
-            print("#####")
             # print(date_into)
 
             # 日付ごとのセルの位置を決める前処理
@@ -54,22 +51,14 @@ class GSpreadWriter(models.Model):
 
             # 日付によってセルの位置を変更する処理
             date_cell_position = "A" + cell_position
-            print(date_cell_position)
             bed_cell_position = "B" + cell_position
-            print(bed_cell_position)
             wakeup_cell_position = "C" + cell_position
-            print(wakeup_cell_position)
             sleep_quality_cell_position = "D" + cell_position
-            print(sleep_quality_cell_position)
             sleep_time_cell_position = "E" + cell_position
-            print(sleep_time_cell_position)
             comment_cell_position = "F" + cell_position
-            print(comment_cell_position)
             staff_comment_cell_position = "G" + cell_position
-            print(staff_comment_cell_position)
 
             # APIを使ったスプレッドシートへの書き込み
-            print("ここまで通った")
             worksheet.update_acell(date_cell_position, date_into)
             worksheet.update_acell(bed_cell_position, go_to_bed_into)
             worksheet.update_acell(wakeup_cell_position, wakeup_into)
@@ -87,7 +76,6 @@ class GSpreadWriter(models.Model):
 
         except Exception as e:
             print("以下エラー")
-            print("##############################")
             print(e)
 
         return

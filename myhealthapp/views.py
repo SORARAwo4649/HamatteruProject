@@ -2,11 +2,11 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, resolve_url, get_object_or_404
+from django.shortcuts import render, redirect, resolve_url
 
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
-    DeleteView, TemplateView
+    DeleteView
 
 from .forms import ListForm, StaffCommentForm
 from .models import List
@@ -96,17 +96,10 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 
             sleep_time_h, sleep_time_m = timedelta_to_hm(sleep_time_time)
             # DBのIDを取得
-            print("################################")
             instance_id = str(instance_form.id)
-            print(instance_id)
-            print(type(instance_id))
-
-            print(instance_form.id)
 
             # IDより編集するレコードをインスタンス化
             insert_sleep_time = List.objects.filter(id=instance_id).first()
-            print("テスト＝＝＝＝＝")
-            print(insert_sleep_time)
 
             # 睡眠時間の計算結果を文字列に変換してからupdate
             insert_sleep_time.sleep_time = str(f'{sleep_time_h}:{sleep_time_m}')
@@ -127,7 +120,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             ]
             model_set = List.objects.filter(id=instance_id).values(*value)[0]
             qs = g_spread.GSpreadWriter()
-            qs.write_to_spread(model_set, value)
+            qs.write_to_spread(model_set)
             # ##################################################################
 
             # return redirect("/myhealthapp/lists/", {"form": form})
@@ -178,8 +171,6 @@ class StaffCommentView(LoginRequiredMixin, UpdateView):
     model = List
     template_name = "myhealthapp/lists/staff_comments.html"
     form_class = StaffCommentForm
-
-
 
     def get_success_url(self):
         # スプレッドシートに書き出す ############################################
