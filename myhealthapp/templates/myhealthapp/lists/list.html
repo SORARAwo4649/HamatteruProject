@@ -1,0 +1,50 @@
+{% extends "myhealthapp/base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>リスト一覧</h1>
+
+  {% if form.is_valid %}
+  <div class="my_errors">
+    <h4>「入力成功」</h4>
+  </div>
+  {% endif %}
+
+  {% if form.errors %}
+  {{ form.non_field_errors }}
+  {% endif %}
+
+  {{ form.myfield }}
+  {% if form.myfield.errors %}
+  {{ form.myfield.errors }}
+  {% endif %}
+
+  <div>
+    <a class="btn btn-primary"
+       href="{% url 'myhealthapp:lists_create' %}"
+       role="button">作成</a>
+    <br>
+
+    {% for list in list_list %}
+    <ui>
+      <div class="card">
+        <h5 class="card-header">{{ list.date }}</h5>
+        <div class="card-body">
+          <h5 class="card-title">就寝時間：{{ list.go_to_bed }}</h5>
+          <h5 class="card-title">起床時間：{{ list.wakeup }}</h5>
+          <h5 class="card-title">睡眠の質：{{ list.sleep_quality }}</h5>
+          <h5 class="card-title">睡眠時間：{{ list.sleep_time }}</h5>
+          <p class="card-text">コメント：{{ list.short_comment }}</p>
+          <p class="card-text">スタッフより：{{ list.staff_comment }}</p>
+          <a href="{% url 'myhealthapp:lists_detail' list.pk  %}"
+             class="btn btn-primary">編集</a>
+        </div>
+      </div>
+    </ui>
+    <br>
+
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
