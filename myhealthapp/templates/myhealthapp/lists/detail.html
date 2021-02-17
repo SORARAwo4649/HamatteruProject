@@ -17,6 +17,9 @@
     <dd class="col-sm-9">{{ list.staff_comment }}</dd>
   </dl>
 
+  <a class="btn btn-info"
+     href="{% url 'myhealthapp:lists_list' %}"
+     role="button">一覧へ戻る</a>
   <a class="btn btn-primary"
      href="{% url 'myhealthapp:lists_update' list.pk  %}"
      role="button">編集</a>
