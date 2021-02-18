@@ -1,6 +1,8 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from django_postgres_timestamp_without_tz import DateTimeWithoutTZField
+
 
 class List(models.Model):
     date = models.DateField("date", unique=True)

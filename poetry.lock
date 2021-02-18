@@ -114,6 +114,14 @@ Django = ">=2.2"
 
 [[package]]
 category = "main"
+description = "django Postgres timestamp without time zone"
+name = "django-postgres-timestamp-without-tz"
+optional = false
+python-versions = "*"
+version = "2021.1.15"
+
+[[package]]
+category = "main"
 description = "Google Authentication Library"
 name = "google-auth"
 optional = false
@@ -323,7 +331,7 @@ secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "cer
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [metadata]
-content-hash = "a3a69fd7fd223ae889fa4958ff3e2535a3544d5acb05eee74f208e5b331bb2d7"
+content-hash = "d36d11aa0f8c26a3f1dc5f756d4e98991d842a305e0d70d87a1d9892194e1cdb"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -367,6 +375,9 @@ django-crispy-forms = [
 django-filter = [
     {file = "django-filter-2.4.0.tar.gz", hash = "sha256:84e9d5bb93f237e451db814ed422a3a625751cbc9968b484ecc74964a8696b06"},
     {file = "django_filter-2.4.0-py3-none-any.whl", hash = "sha256:e00d32cebdb3d54273c48f4f878f898dced8d5dfaad009438fe61ebdf535ace1"},
+]
+django-postgres-timestamp-without-tz = [
+    {file = "django-postgres-timestamp-without-tz-2021.1.15.tar.gz", hash = "sha256:b2c6e37ee2a1643e176100aecdcee9fab2e656b9c3b86897232cfac71424f06e"},
 ]
 google-auth = [
     {file = "google-auth-1.24.0.tar.gz", hash = "sha256:0b0e026b412a0ad096e753907559e4bdb180d9ba9f68dd9036164db4fdc4ad2e"},
