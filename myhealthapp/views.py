@@ -149,6 +149,7 @@ class ListListView(LoginRequiredMixin, ListView):
 
     # 更新順にリスト表示
     def get_queryset(self):
+
         return List.objects.order_by("date").reverse()
 
 
@@ -163,6 +164,23 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ListForm
 
     def get_success_url(self):
+        # スプレッドシートに書き出す ############################################
+        # 以下はセットで使う
+        print(self.kwargs["pk"])
+        instance_id = self.kwargs["pk"]
+        value = [
+            "date",
+            "go_to_bed",
+            "wakeup",
+            "sleep_quality",
+            "sleep_time",
+            "short_comment",
+            "staff_comment",
+        ]
+        model_set = List.objects.filter(id=instance_id).values(*value)[0]
+        qs = g_spread.GSpreadWriter()
+        qs.write_to_spread(model_set)
+        # ##################################################################
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
 
 
@@ -188,7 +206,7 @@ class StaffCommentView(LoginRequiredMixin, UpdateView):
         ]
         model_set = List.objects.filter(id=instance_id).values(*value)[0]
         qs = g_spread.GSpreadWriter()
-        qs.write_to_spread(model_set, value)
+        qs.write_to_spread(model_set)
         # ##################################################################
         return resolve_url("myhealthapp:lists_detail", pk=self.kwargs["pk"])
 
