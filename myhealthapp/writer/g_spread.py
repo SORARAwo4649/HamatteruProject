@@ -5,6 +5,10 @@ from ..models import List
 
 
 class GSpreadWriter(models.Model):
+    """
+    SPREADSHEETの操作のリファレンス
+    https://zak-papa.com/python_gspread_workbook_worksheet#%E3%80%8C%E5%90%8D%E5%89%8D%E3%80%8D%E3%81%A7%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B
+    """
     def write_to_spread(self, model_set):
         print(model_set)
 
@@ -57,23 +61,26 @@ class GSpreadWriter(models.Model):
             ws = gc.open_by_key(SPREADSHEET_KEY)
 
             # 毎月１日ならシートを新規作成
-            if checking_first_day == 1:
-                print('１日のデバッグ')
-                # まずはシートIDの取得
-                ws_id = ws.get_worksheet(0).id
-                print(ws_id)
+            try:
+                print(ws.worksheet("2021_03"))
+            except Exception as e:
+                if checking_first_day == 1:
+                    print('１日のデバッグ')
+                    # まずはシートIDの取得
+                    ws_id = ws.get_worksheet(0).id
+                    print(ws_id)
 
-                # シートの名前を決める
-                new_sheet_name_set = \
-                    str(int(date_date[0])) + "_" + str(int(date_date[1]))
+                    # シートの名前を決める
+                    new_sheet_name_set = \
+                        str(int(date_date[0])) + "_" + str(int(date_date[1]))
 
-                # templateをコピーする
-                print("ここらへんでエラー出てる気がする")
-                ws.duplicate_sheet(
-                    source_sheet_id=ws_id,
-                    new_sheet_name=new_sheet_name_set,
-                    insert_sheet_index=1
-                )
+                    # templateをコピーする
+                    print("ここらへんでエラー出てる気がする")
+                    ws.duplicate_sheet(
+                        source_sheet_id=ws_id,
+                        new_sheet_name=new_sheet_name_set,
+                        insert_sheet_index=1
+                    )
 
             # シートのインスタンス化
             print("ここらへんでエラー出てる気がする２")
