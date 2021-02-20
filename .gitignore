@@ -2,3 +2,5 @@
 db.sqlite3
 Sercret
 myhealthproject4649-be1d53621eaf.json
+myhealthapp/migrations
+config/settings.py
