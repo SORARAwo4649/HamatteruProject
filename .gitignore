@@ -4,3 +4,6 @@ Sercret
 myhealthproject4649-be1d53621eaf.json
 myhealthapp/migrations
 config/settings.py
+config/__pypycache__
+myhealthapp/__pycache__
+myhelps/__pycache__
