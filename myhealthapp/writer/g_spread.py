@@ -61,8 +61,10 @@ class GSpreadWriter(models.Model):
             ws = gc.open_by_key(SPREADSHEET_KEY)
 
             # 毎月１日ならシートを新規作成
+            checking_sheet \
+                = str(int(date_date[0])) + "_" + str(int(date_date[1]))
             try:
-                print(ws.worksheet("2021_03"))
+                print(ws.worksheet(checking_sheet))
             except Exception as e:
                 if checking_first_day == 1:
                     print('１日のデバッグ')
