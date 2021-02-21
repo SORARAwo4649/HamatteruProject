@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'r9g-n(iv=szll!!-y&4*7iwagc^fguxh&@6zy1_4yjvc(xgpg8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["health.myhealthapp.com", "localhost"]
 
 # Application definition
 
@@ -64,11 +65,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'g0711101cw',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -113,3 +126,5 @@ LOGIN_REDIRECT_URL = "myhealthapp:home"
 LOGOUT_REDIRECT_URL = "myhealthapp:index"
 
 LOGIN_URL = "login"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
