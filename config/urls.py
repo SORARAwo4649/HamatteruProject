@@ -5,5 +5,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("myhealthapp/", include("myhealthapp.urls")),
     path("myhealthapp/", include("django.contrib.auth.urls")),
-    path("myhelps/", include("myhelps.urls")),
 ]

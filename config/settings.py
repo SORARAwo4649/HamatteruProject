@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myhealthapp.apps.MyhealthappConfig',
-    'myhelps.apps.MyhelpsConfig',
     'bootstrap_datepicker_plus',
     'crispy_forms',
     'django_filters',
