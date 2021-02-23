@@ -7,3 +7,4 @@ config/settings.py
 config/__pypycache__
 myhealthapp/__pycache__
 *pycache*
+static
