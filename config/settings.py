@@ -13,7 +13,7 @@ SECRET_KEY = 'r9g-n(iv=szll!!-y&4*7iwagc^fguxh&@6zy1_4yjvc(xgpg8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["health.sorarawo4649.com", "localhost"]
+ALLOWED_HOSTS = ['your_server_domain_or_IP', "localhost"]
 
 # Application definition
 
