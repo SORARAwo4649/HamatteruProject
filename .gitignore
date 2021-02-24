@@ -1,10 +1,11 @@
 .venv
 db.sqlite3
-Sercret
+Sercret/
 myhealthproject4649-be1d53621eaf.json
-myhealthapp/migrations
+myhealthapp/migrations/
+settings.py
 config/settings.py
-config/__pypycache__
-myhealthapp/__pycache__
+config/__pypycache__/
+myhealthapp/__pycache__/
 *pycache*
-static
+static/
