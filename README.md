@@ -132,6 +132,55 @@ python3 manage.py createsuperuser
 
 ### 4.8 gunicorn の設定
 #### 4.8.1 socket ファイルの作成
+以下のコマンドで gunicorn のソケットファイルを作成します。
+```bash
+sudo vim /etc/systemd/system/gunicorn.socket
+```
+作成したファイルは以下のように編集します。
+```bash
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
+```
+保存して終了します。
+
+#### 4.8.2 service ファイルの作成
+まずは手順4.5で gunicorn がどこに保存されているか確認します。
+poetry のシェルに入るときに Python の PATH が表示されます。その付近の bin ディレクトリにあることが多いです。
+見つからない場合は検索をかけて探して下さい。
+以下のコマンドで、サービスファイルを作成します。
+```bash
+sudo vim /etc/systemd/system/gunicorn.service
+```
+作成したファイルは以下のように編集します。
+```bash
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=sammy
+Group=www-data
+WorkingDirectory=/home/sammy/myprojectdir
+ExecStart=/home/sammy/myprojectdir/myprojectenv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          --env DJANGO_SETTINGS_MODULE=config.settings.production
+          config.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+```
+個別に設定すべき箇所は Service の部分です。\
+ユーザー名はご自身の環境のものにします。
+ExecStart で指す gunicorn は本手順の冒頭で確認したものを使います。
 
 ## 5. 注意
 
