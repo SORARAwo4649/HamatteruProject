@@ -180,7 +180,31 @@ WantedBy=multi-user.target
 ```
 個別に設定すべき箇所は Service の部分です。\
 ユーザー名はご自身の環境のものにします。
-ExecStart で指す gunicorn は本手順の冒頭で確認したものを使います。
+ExecStart で指す gunicorn は本手順の冒頭で確認した PATH を使います。
+
+### 4.9 Nginx の設定
+以下のコマンドで nginx の設定ファイルを作成します。ファイル名は任意です。
+```bash
+sudo vim /etc/nginx/sites-available/myproject
+```
+以下のように編集します。
+```bash
+server {
+    listen 80;
+    server_name server_domain_or_IP;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/ubuntu/health_management_project;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
+```
+server_domain_or_IP には自身の VPS のものを書きます。
 
 ## 5. 注意
 
