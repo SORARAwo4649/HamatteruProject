@@ -180,7 +180,13 @@ WantedBy=multi-user.target
 ```
 個別に設定すべき箇所は Service の部分です。\
 ユーザー名はご自身の環境のものにします。
-ExecStart で指す gunicorn は本手順の冒頭で確認した PATH を使います。
+ExecStart で指す gunicorn は本手順の冒頭で確認した PATH を使います。\
+以下のコマンドで、デーモンをリロードし gunicorn を再起動します。
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+```
+
 
 ### 4.9 Nginx の設定
 以下のコマンドで nginx の設定ファイルを作成します。ファイル名は任意です。
@@ -204,7 +210,17 @@ server {
     }
 }
 ```
-server_domain_or_IP には自身の VPS のものを書きます。
+server_domain_or_IP には自身の VPS のものを書きます。\
+以下のコマンドで Nginx を再起動します。
+```bash
+sudo systemctl restart nginx
+```
+### 4.10 ファイヤーウォールの設定
+以下のコマンドで、ファイヤーウォールの開きます。
+```bash
+sudo allow 'Nginx Full'
+```
+
 
 ## 5. 注意
 
