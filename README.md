@@ -1,11 +1,93 @@
 # health_management_project
 
 ## 1. はじめに
-
+Django による睡眠記録体調管理アプリです。
 ## 2. 前提事項
+起動を確認しているバージョンです。
 
+|  項目  |  バージョン  |
+| ---- | ---- |
+|  Python  |  3.8.6  |
+|  Django  |  3.1.5  |
 ## 3. ディレクトリ構成
+以下がディレクトリ構成です。
+```bash
+health_management_project
+├── README.md
+├── config
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-38.pyc
+│   │   └── settings.cpython-38.pyc
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── manage.py
+├── memo.txt
+├── myhealthapp
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-38.pyc
+│   │   ├── admin.cpython-38.pyc
+│   │   ├── apps.cpython-38.pyc
+│   │   └── models.cpython-38.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── filters.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── templates
+│   │   ├── myhealthapp
+│   │   │   ├── base.html
+│   │   │   ├── home.html
+│   │   │   ├── index.html
+│   │   │   ├── lists
+│   │   │   │   ├── create.html
+│   │   │   │   ├── delete.html
+│   │   │   │   ├── detail.html
+│   │   │   │   ├── list.html
+│   │   │   │   ├── staff_comments.html
+│   │   │   │   └── update.html
+│   │   │   └── signup.html
+│   │   └── registration
+│   │       └── login.html
+│   ├── tests
+│   │   ├── __init__.py
+│   │   └── test_views.py
+│   ├── urls.py
+│   ├── views.py
+│   └── writer
+│       ├── __init__.py
+│       └── g_spread.py
+├── myhelps
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── poetry.lock
+├── pyproject.toml
+└── testtest.py
+```
+以下が自作ファイルの説明です。\
+Python および Django 由来のディレクトリのみ説明します。\
+追加した自作ファイルには※マークがあります。
 
+|  項目  |  説明  |
+| ---- | ---- |
+|  README.md  |  本ドキュメント|
+|  config  |  Djangoの設定ファイル等  |
+|  manage.py  |  Django 由来のファイル  |
+|  ※memo.txt  |  開発用のメモ  |
+|  myhealthapp  |  Django 由来のアプリディレクトリ  |
+|  myhelps  |  Django 由来のアプリディレクトリ（現在開発中）  |
+|  ※poetry.lock  |  poetry のバージョン管理に必要なファイル  |
+|  ※pyproject.toml  |  本アプリに必要なソフトの管理を行うファイル  |
+|  testtest.py  |  Django 由来のテストに必要なファイル  |
 ## 4. セットアップ
 本アプリをご自身でセットアップするための手順を示します。
 ### 4.1 初期設定
