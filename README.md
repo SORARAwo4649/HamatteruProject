@@ -303,10 +303,7 @@ sudo systemctl restart nginx
 sudo allow 'Nginx Full'
 ```
 
-
-## 5. 注意
-
-## 6. ライセンス
+## 5. ライセンス
 Copyright (c) 2021 Kouhei Hamaguchi (Legit Whiz)
 This software is released under the MIT License, see LICENSE, see LICENSE.
 This website content is released under the CC BY 4.0 License, see LICENSE.
