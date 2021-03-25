@@ -303,7 +303,25 @@ sudo systemctl restart nginx
 sudo allow 'Nginx Full'
 ```
 
-## 5. ライセンス
+## 6. バージョン管理
+### 6.1 バージョンのストラテジ
+バージョンは、X.Y.Z表記で表す。
+
+|  項目  |  説明  |
+| ---- | ---- |
+|  X |  メジャーバージョン：大きな変更  |
+|  Y  |  マイナーバージョン：小さな変更  |
+|  Z  |  バッチバージョン：小さな修正  |
+|  r  |  オプション：ディレクトリ・ファイルの整理  |
+
+### 6.2 現在のバージョンの説明
+ver 0.1.1r：ディレクトリ構成の修正\
+ver 0.1.1：軽微なバグの修正\
+ver 0.1.0：スプレッドシート書き出し機能の修正\
+ver 0.0.1r ファイルの整理\
+ver 0.0.1：最小機能によるデプロイ
+
+## 7. ライセンス
 Copyright (c) 2021 Kouhei Hamaguchi (Legit Whiz)
 This software is released under the MIT License, see LICENSE, see LICENSE.
 This website content is released under the CC BY 4.0 License, see LICENSE.
