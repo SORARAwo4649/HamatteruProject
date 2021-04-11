@@ -39,11 +39,27 @@ class Command(BaseCommand):
 
         cal_day = int(day_buf) + 4 - 2
         print(cal_day)
-        test1 = \
+
+        min_temp = soup.find(
+            "table", {"id": "tablefix1"}
+        ).find_all("tr")[cal_day].find_all("td")[8]
+
+        max_temp = soup.find(
+            "table", {"id": "tablefix1"}
+        ).find_all("tr")[cal_day].find_all("td")[7]
+
+        hpa = \
             soup.find(
                 "table",
                 {"id": "tablefix1"}
             ).find_all("tr")[cal_day].find_all("td")[1]
-        test1_text = test1.get_text()
-        print(test1_text)
+
+        hpa_text = hpa.get_text()
+        min_temp_text = min_temp.get_text()
+        max_temp_text = max_temp.get_text()
+
+        print(f'気圧：{hpa_text}')
+        print(f'最低気温；{min_temp_text}')
+        print(f'最高気温：{max_temp_text}')
+
         self.stdout.write("Success!!")

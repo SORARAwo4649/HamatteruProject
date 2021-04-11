@@ -2,7 +2,7 @@
 db.sqlite3
 Sercret/
 myhealthproject4649-be1d53621eaf.json
-myhealthapp/migrations/
+myhealthapp/migrations/0001_initial.py
 config/__pypycache__/
 myhealthapp/__pycache__/
 *pycache*

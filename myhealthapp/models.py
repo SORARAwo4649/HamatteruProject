@@ -25,5 +25,19 @@ class List(models.Model):
         blank=True,
     )
 
+    # 追加分③
+    atmosphere = models.FloatField(
+        "atmosphere",
+        null=True,
+    )
+    min_temp = models.FloatField(
+        "min_temperature",
+        null=True,
+    )
+    max_temp = models.FloatField(
+        "max_temperature",
+        null=True,
+    )
+
     def __str__(self):
         return str(self.date)
