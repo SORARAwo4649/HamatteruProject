@@ -9,6 +9,7 @@ class GSpreadWriter(models.Model):
     SPREADSHEETの操作のリファレンス
     https://zak-papa.com/python_gspread_workbook_worksheet#%E3%80%8C%E5%90%8D%E5%89%8D%E3%80%8D%E3%81%A7%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%88%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B
     """
+
     def write_to_spread(self, model_set):
         print(model_set)
 
@@ -60,29 +61,34 @@ class GSpreadWriter(models.Model):
             # スプレッドシート全体のインスタンス化
             ws = gc.open_by_key(SPREADSHEET_KEY)
 
-            # 毎月１日ならシートを新規作成
+            # 該当月のシートが存在するかの判断
             checking_sheet \
                 = str(int(date_date[0])) + "_" + str(int(date_date[1]))
+            print(f"checking：{checking_sheet}")
+            # print(ws.worksheet(checking_sheet))
+
             try:
+                print("#######################")
                 print(ws.worksheet(checking_sheet))
+                print(type(ws.worksheet(checking_sheet)))
             except Exception as e:
-                if checking_first_day == 1:
-                    print('１日のデバッグ')
-                    # まずはシートIDの取得
-                    ws_id = ws.get_worksheet(0).id
-                    print(ws_id)
+                print('１日のデバッグ')
+                # まずはシートIDの取得
+                ws_id = ws.get_worksheet(0).id
+                print(ws_id)
 
-                    # シートの名前を決める
-                    new_sheet_name_set = \
-                        str(int(date_date[0])) + "_" + str(int(date_date[1]))
+                # シートの名前を決める
+                new_sheet_name_set = \
+                    str(int(date_date[0])) + "_" + str(int(date_date[1]))
 
-                    # templateをコピーする
-                    print("ここらへんでエラー出てる気がする")
-                    ws.duplicate_sheet(
-                        source_sheet_id=ws_id,
-                        new_sheet_name=new_sheet_name_set,
-                        insert_sheet_index=1
-                    )
+                # templateをコピーする
+                print("ここらへんでエラー出てる気がする")
+                ws.duplicate_sheet(
+                    source_sheet_id=ws_id,
+                    new_sheet_name=new_sheet_name_set,
+                    insert_sheet_index=1
+                )
+
 
             # シートのインスタンス化
             print("ここらへんでエラー出てる気がする２")
@@ -94,8 +100,8 @@ class GSpreadWriter(models.Model):
             wakeup_cell_position = "C" + cell_position
             sleep_quality_cell_position = "D" + cell_position
             sleep_time_cell_position = "E" + cell_position
-            comment_cell_position = "F" + cell_position
-            staff_comment_cell_position = "G" + cell_position
+            comment_cell_position = "I" + cell_position
+            staff_comment_cell_position = "J" + cell_position
 
             # APIを使ったスプレッドシートへの書き込み
             worksheet.update_acell(date_cell_position, date_into)
