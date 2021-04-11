@@ -36,7 +36,7 @@
           <h5 class="card-title">睡眠時間：{{ list.sleep_time }}</h5>
           <p class="card-title">最低気温：{{ list.min_temperature }}</p>
           <p class="card-title">最高気温：{{ list.max_temperature }}</p>
-          <p class="card-title">気圧：{{ list.atmosphere_temperature }}</p>
+          <p class="card-title">気圧：{{ list.atmosphere }}</p>
           <p class="card-text">コメント：{{ list.short_comment }}</p>
           <p class="card-text">スタッフより：{{ list.staff_comment }}</p>
           <a href="{% url 'myhealthapp:lists_detail' list.pk  %}"
