@@ -31,7 +31,7 @@ class Command(BaseCommand):
         print(url)
         res = requests.get(url)
         # ########################################
-        # time.sleep(60)
+        time.sleep(60)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
