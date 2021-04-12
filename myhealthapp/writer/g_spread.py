@@ -48,6 +48,9 @@ class GSpreadWriter(models.Model):
             print(sleep_quality_into)
             sleep_time_into = model_set["sleep_time"].strftime('%H:%M')
             print(sleep_time_into)
+            min_temp_into = model_set["min_temp"]
+            max_temp_into = model_set["max_temp"]
+            atmosphere_into = model_set["atmosphere"]
             short_comment_into = model_set["short_comment"]
             print(short_comment_into)
             staff_comment_into = model_set["staff_comment"]
@@ -100,6 +103,9 @@ class GSpreadWriter(models.Model):
             wakeup_cell_position = "C" + cell_position
             sleep_quality_cell_position = "D" + cell_position
             sleep_time_cell_position = "E" + cell_position
+            min_temp_position = "F" + cell_position
+            max_temp_position = "G" + cell_position
+            atmosphere_position = "H" + cell_position
             comment_cell_position = "I" + cell_position
             staff_comment_cell_position = "J" + cell_position
 
@@ -112,6 +118,9 @@ class GSpreadWriter(models.Model):
                 sleep_quality_into
             )
             worksheet.update_acell(sleep_time_cell_position, sleep_time_into)
+            worksheet.update_acell(min_temp_position, min_temp_into)
+            worksheet.update_acell(max_temp_position, max_temp_into)
+            worksheet.update_acell(atmosphere_position, atmosphere_into)
             worksheet.update_acell(comment_cell_position, short_comment_into)
             worksheet.update_acell(
                 staff_comment_cell_position,

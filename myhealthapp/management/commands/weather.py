@@ -6,6 +6,7 @@ import datetime
 import time
 
 from myhealthapp.models import List
+from myhealthapp.writer import g_spread
 
 
 class Command(BaseCommand):
@@ -29,7 +30,8 @@ class Command(BaseCommand):
         url += '&view=p1'
         print(url)
         res = requests.get(url)
-        time.sleep(60)
+        # ########################################
+        # time.sleep(60)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
@@ -78,6 +80,15 @@ class Command(BaseCommand):
 
             # DBに登録
             db_ins.save()
+
+            # スプレッドシートに書き出す ############################################
+            # 以下はセットで使う
+            model_set = List.objects.all().filter(
+                    date=(now - datetime.timedelta(days=1))
+                ).values()[0]
+            qs = g_spread.GSpreadWriter()
+            qs.write_to_spread(model_set)
+            # ##################################################################
 
         except Exception as e:
             print("以下エラー")
