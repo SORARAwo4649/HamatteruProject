@@ -99,7 +99,8 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             instance_id = str(instance_form.id)
 
             # IDより編集するレコードをインスタンス化
-            insert_sleep_time = List.objects.filter(id=instance_id).first()
+            insert_sleep_time = \
+                List.objects.select_for_update().filter(id=instance_id).first()
 
             # 睡眠時間の計算結果を文字列に変換してからupdate
             insert_sleep_time.sleep_time = str(f'{sleep_time_h}:{sleep_time_m}')
