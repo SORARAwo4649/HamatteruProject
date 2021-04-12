@@ -66,7 +66,7 @@ class Command(BaseCommand):
         try:
             # DBのデータをインスタンス化
             db_ins = \
-                List.objects.select_for_update().all().filter(
+                List.objects.all().filter(
                     date=(now - datetime.timedelta(days=1))
                 ).first()
             print(f"DB:{db_ins}")
