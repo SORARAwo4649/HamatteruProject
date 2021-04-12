@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import time
 
 from myhealthapp.models import List
 
@@ -28,6 +29,7 @@ class Command(BaseCommand):
         url += '&view=p1'
         print(url)
         res = requests.get(url)
+        time.sleep(60)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
