@@ -31,7 +31,7 @@ class Command(BaseCommand):
         print(url)
         res = requests.get(url)
         # ########################################
-        time.sleep(60)
+        # time.sleep(60)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
@@ -67,10 +67,12 @@ class Command(BaseCommand):
 
         try:
             # DBのデータをインスタンス化
-            db_ins = \
-                List.objects.all().filter(
-                    date=(now - datetime.timedelta(days=1))
-                ).first()
+            now = datetime.datetime.now()
+            print((now - datetime.timedelta(days=1)).date())
+            db_ins = List.objects.filter(
+                date=(now - datetime.timedelta(days=1)).date()
+            ).values()
+            print("ここだよね")
             print(f"DB:{db_ins}")
 
             # データをfloat型に変更して追加
@@ -91,7 +93,7 @@ class Command(BaseCommand):
             # ##################################################################
 
         except Exception as e:
-            print("以下エラー")
+            print("以下タイプエラー")
             print(e)
 
         self.stdout.write("Success!!")
