@@ -31,7 +31,7 @@ class Command(BaseCommand):
         print(url)
         res = requests.get(url)
         # ########################################
-        time.sleep(60)
+        # time.sleep(60)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
@@ -69,9 +69,9 @@ class Command(BaseCommand):
             # DBのデータをインスタンス化
             now = datetime.datetime.now()
             print((now - datetime.timedelta(days=1)).date())
-            db_ins = List.objects.filter(
+            db_ins = List.objects.all().filter(
                 date=(now - datetime.timedelta(days=1)).date()
-            ).values()
+            ).first()
             print("ここだよね")
             print(f"DB:{db_ins}")
 
@@ -82,6 +82,8 @@ class Command(BaseCommand):
 
             # DBに登録
             db_ins.save()
+
+            print("ここまではうまくいく2")
 
             # スプレッドシートに書き出す ############################################
             # 以下はセットで使う

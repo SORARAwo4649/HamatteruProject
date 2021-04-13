@@ -208,6 +208,9 @@ class StaffCommentView(LoginRequiredMixin, UpdateView):
             "wakeup",
             "sleep_quality",
             "sleep_time",
+            "min_temp",
+            "max_temp",
+            "atmosphere",
             "short_comment",
             "staff_comment",
         ]
