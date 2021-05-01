@@ -15,11 +15,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print(datetime.datetime.today().strftime('%y/%m/%d'))
         now = datetime.datetime.now()
-        year_buf = str(now.year)
+        yesterday_time = now - datetime.timedelta(days=1)
+        year_buf = str(yesterday_time.year)
         print(year_buf)
-        month_buf = str(now.month)
+        month_buf = str(yesterday_time.month)
         print(month_buf)
-        day_buf = str(now.day)
+        day_buf = str(yesterday_time.day)
         print(day_buf)
 
         # スクレイピング対象の URL にリクエストを送り HTML を取得する
