@@ -41,7 +41,7 @@ class Command(BaseCommand):
         title_text = soup.find('title').get_text()
         print(title_text)
 
-        cal_day = int(day_buf) + 4 - 2
+        cal_day = int(day_buf) + 4 - 1
         print(cal_day)
 
         min_temp = soup.find(
