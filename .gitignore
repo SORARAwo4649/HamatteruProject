@@ -1,0 +1,7 @@
+.venv
+__pycache__/
+
+db.sqlite3
+Sercret/
+myhealthproject4649-be1d53621eaf.json
+static/
