@@ -15,7 +15,7 @@
     <title>{% block page_title %}{% endblock %}</title>
 
     {# --- css --- #}
-    <link rel="stylesheet" href="{% static 'vendor/semantic/semantic.min.css' %}">
+    
     <style type="text/css">
         body {
             background-color: #dadada;
@@ -60,7 +60,7 @@
     </header>
 <div class="ui container">
     {% include '_message.html' %}
-    <h3>デバッグ！！</h3>
+    <h3>デバッグの表示</h3>
     {% block content %}{% endblock %}
 </div>
 
@@ -75,9 +75,7 @@
 </footer>
 
 {# --- js --- #}
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'js/jquery-ui.min.js' %}"></script>
-<script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
+
 {% block extra_js %}{% endblock %}
 </body>
 </html>

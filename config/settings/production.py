@@ -11,12 +11,12 @@ env.read_env(os.path.join(BASE_DIR, '.env'))
 # Security settings #
 #####################
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = env('SECRET_KEY')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
+# ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 ############
 # Database #

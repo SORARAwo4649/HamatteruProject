@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
-    return render(request, "home.html")
+    return render(request, "accounts/home.html")
 
 
 class RegisterView(View):
@@ -58,9 +58,8 @@ register = RegisterView.as_view()
 class LoginView(View):
     def get(self, request, *args, **kwargs):
         """GETリクエスト用のメソッド"""
-        # すでにログインしている場合はショップ画面へリダイレクト
         if request.user.is_authenticated:
-            return redirect(reverse('health:lists_list'))
+            return redirect(reverse('accounts:home'))
 
         context = {
             'form': LoginForm(),
@@ -84,7 +83,7 @@ class LoginView(View):
         auth_login(request, user)
 
         # ログイン後処理（ログイン回数を増やしたりする。本来は user_logged_in シグナルを使えばもっと簡単に書ける）
-        user.post_login()
+        # user.post_login()
 
         # ロギング
         logger.info("User(id={}) has logged in.".format(user.id))
@@ -92,8 +91,7 @@ class LoginView(View):
         # フラッシュメッセージを画面に表示
         messages.info(request, "ログインしました。")
 
-        # ショップ画面にリダイレクト
-        return redirect(reverse('health:lists_list'))
+        return redirect(reverse('accounts:home'))
 
 
 login = LoginView.as_view()
