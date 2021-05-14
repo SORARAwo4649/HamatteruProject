@@ -97,11 +97,10 @@ class ListListView(LoginRequiredMixin, ListView):
         current_user = self.request.user
         print(current_user)
         # スーパーユーザの場合、リストにすべてを表示する。
-        if current_user.is_superuser:
+        if current_user.is_superuser or current_user.is_staff:
             return List.objects.all().order_by("date").reverse()
         # 一般ユーザは自分のレコードのみ表示する。
         else: 
-            print(List.objects.filter(user=current_user.id).order_by("date").reverse().values(*value)[0])
             return List.objects.filter(user=current_user.id).order_by("date").reverse()
 
 
