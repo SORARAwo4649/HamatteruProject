@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -12,12 +13,16 @@ from .forms import LoginForm, RegisterForm, ProfileForm
 
 logger = logging.getLogger(__name__)
 
+@login_required
+def home(request):
+    return render(request, "home.html")
+
 
 class RegisterView(View):
     def get(self, request, *args, **kwargs):
         # すでにログインしている場合はショップ画面へリダイレクト
         if request.user.is_authenticated:
-            return redirect(reverse('shop:index'))
+            return redirect(reverse('accounts:home'))
 
         context = {
             'form': RegisterForm(),

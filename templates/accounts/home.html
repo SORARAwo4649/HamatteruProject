@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}ログイン{% endblock %}
+
+{% block extra_css %}
+<style type="text/css">
+    .container > .grid {
+        height: 100%;
+    }
+
+    .column {
+        max-width: 400px;
+    }
+
+    p.red.message {
+        color: #db2828;
+        margin: 0.8em 0 0 0.8em;
+        text-align: left;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>ホーム画面にする予定</h1>
+    <h2>・睡眠記録アプリ</h2>
+    <button type="button" class="btn btn-success" href="{% url 'accounts:register' %}">Health</button>
+    <br>
+    <h2>・日記アプリ</h2>
+    <button type="button" class="btn btn-success" href=#>Life</button>
+    <p>サインアップorログインが完了しました。</p>
+</div>
+{% endblock %}
