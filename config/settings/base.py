@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'accounts.apps.AccountsConfig',
     'health.apps.HealthConfig',
+    'life.apps.LifeConfig',
     'bootstrap_datepicker_plus',
     'crispy_forms',
     'django_filters',

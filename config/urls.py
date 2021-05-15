@@ -8,6 +8,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/accounts/login/')),
     path('accounts/', include('accounts.urls')),
     path("health/", include("health.urls")),
+    path("life/", include("life.urls")),
 ]
 
 if settings.DEBUG:
