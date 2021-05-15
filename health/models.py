@@ -2,14 +2,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from django_postgres_timestamp_without_tz import DateTimeWithoutTZField
-
+from accounts.models import CustomUser
 
 class List(models.Model):
-    user = models.ManyToManyField(
-        'accounts.CustomUser',
-        verbose_name='作成者',
-        blank=True,
-        through='UserListRelation')
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateField("date")
     go_to_bed = models.DateTimeField("go_to_bed")
     wakeup = models.DateTimeField("wakeup")
@@ -46,7 +42,3 @@ class List(models.Model):
 
     def __str__(self):
         return str(self.date)
-
-class UserListRelation(models.Model):
-    user = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE)
-    list = models.ForeignKey("List", on_delete=models.CASCADE)
