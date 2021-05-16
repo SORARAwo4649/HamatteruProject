@@ -15,14 +15,19 @@ from .models import List
 def signup(request):
     # HTTPメソッドのチェック
     # POSTならif以下へ
+    print("#*#*#*#*#**#")
     if request.method == "POST":
         form = UserCreationForm(request.POST)
+        print("###################")
+        print(form.register_pass)
         if form.is_valid():
             user_instance = form.save()
             login(request, user_instance)
             return redirect("accounts:register")
     else:
         form = UserCreationForm()
+        print("******************")
+        print(form.register_pass)
 
     context = {
         "form": form

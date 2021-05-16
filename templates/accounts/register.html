@@ -4,19 +4,21 @@
 {% block page_title %}新規ユーザー登録{% endblock %}
 
 {% block extra_css %}
-    <style type="text/css">
-        .container > .grid {
-          height: 100%;
-        }
-        .column {
-            max-width: 400px;
-        }
-        p.red.message {
-            color: #db2828;
-            margin: 0.8em 0 0 0.8em;
-            text-align: left;
-        }
-    </style>
+<style type="text/css">
+    .container>.grid {
+        height: 100%;
+    }
+
+    .column {
+        max-width: 400px;
+    }
+
+    p.red.message {
+        color: #db2828;
+        margin: 0.8em 0 0 0.8em;
+        text-align: left;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -53,6 +55,10 @@
                     {% endif %}
                 </div>
                 {% endfor %}
+                <div>
+                    <lavel for="register_pass">登録パスワード</lavel>
+                    <input type="password" id="register_pass" name="register_pass">
+                </div>
 
                 {% csrf_token %}
                 <button type="submit" class="ui fluid teal submit button">ユーザー登録</button>

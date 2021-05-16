@@ -1,4 +1,5 @@
 import logging
+import environ
 
 from django.conf import settings
 from django.contrib import messages
@@ -17,6 +18,8 @@ logger = logging.getLogger(__name__)
 def home(request):
     return render(request, "accounts/home.html")
 
+env = environ.Env()
+register_password = env('register_pass')
 
 class RegisterView(View):
     def get(self, request, *args, **kwargs):
@@ -39,18 +42,26 @@ class RegisterView(View):
             # バリデーションNGの場合はアカウント登録画面のテンプレートを再表示
             return render(request, 'accounts/register.html', {'form': form})
 
-        # 保存する前に一旦取り出す
-        user = form.save(commit=False)
-        # パスワードをハッシュ化してセット
-        user.set_password(form.cleaned_data['password'])
-        # ユーザーオブジェクトを保存
-        user.save()
+        print("###################")
+        print(request.POST.dict())
+        print(request.POST.dict()["register_pass"])
+        if request.POST.dict()["register_pass"] == register_password:
+            print("成功！！")
+            # 保存する前に一旦取り出す
+            user = form.save(commit=False)
+            # パスワードをハッシュ化してセット
+            user.set_password(form.cleaned_data['password'])
+            # ユーザーオブジェクトを保存
+            user.save()
 
-        # ログイン処理（取得した Userオブジェクトをセッションに保存 & Userデータを更新）
-        auth_login(request, user)
+            # ログイン処理（取得した Userオブジェクトをセッションに保存 & Userデータを更新）
+            auth_login(request, user)
 
-        return redirect(settings.LOGIN_REDIRECT_URL)
+            return redirect(settings.LOGIN_REDIRECT_URL)
+        
+        return render(request, 'accounts/register.html', {'form': form})
 
+        
 
 register = RegisterView.as_view()
 
