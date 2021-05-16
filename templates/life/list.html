@@ -1,22 +1,52 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <main class="container">
     <div class="p-3 mb-2 bg-light text-dark">
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">アルバムページのサンプル</h1>
+                    <h1 class="fw-light">My Life</h1>
                     <p class="lead text-muted">
-                        内容や作成者など、以下のコレクションに関する簡単な説明文を書きましょう。なるべく短く、わかりやすい文にしましょう。しかし短すぎると、友達は見てくれないかもしれません。</p>
+                        感謝を忘れない。 初心を忘れない。七転八起！！</p>
                     <p>
-                        <a href="#" class="btn btn-primary my-2">日記作成</a>
+                        <a href="{% url 'life:create' %}" class="btn btn-primary my-2">日記作成</a>
                     </p>
                 </div>
             </div>
         </section>
     </div>
+
     <h1>日記一覧</h1>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        {% for diary in object_list %}
+                        <div class="card-body">
+                            <h2 class="diary-title">{{ diary.title }}</h2>
+                            <p class="meta">
+                                <time
+                                    datetime="{{ diary.created_at | date:'Y-m-d' }}">{{ diary.created_at | date:'Y年n月j日' }}</time>
+                            </p>
+                            <p class="card-text">{{ diary.thanks| truncatechars:50 }}</p>
+                            <p class="card-text">{{ diary.text | truncatechars:50 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'life:detail' list.pk %}">見る</a></button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'life:update' list.pk %}">編集</a></button>
+                                </div>
+                                <small class="text-muted">9分</small>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>記事が見つかりませんでした。</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}

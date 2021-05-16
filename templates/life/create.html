@@ -1,20 +1,32 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block extrahead %}
-{{ form.media }}
-{% endblock %}
-
-
-
 {% block content %}
 <div class="container">
-  <h1>リスト作成</h1>
+  <h1>日記作成</h1>
   <form method="post">
     {% csrf_token %}
-    {{ filter.form|crispy }}
     {{ form.non_field_errors }}
-    {{ form.as_p }}
+    <div class="field">
+      {{ form.title.label_tag }}
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+
+    <div class="form-group">
+      {{ form.thanks.label_tag }}
+      {{ form.thanks }}
+      {{ form.thanks.errors }}
+    </div>
+
+    <div class="form-group">
+      {{ form.text.label_tag }}
+      {{ form.text }}
+      {{ form.text.errors }}
+    </div>
+
+    
+
     <button type="submit" class="btn btn-primary">送信</button>
   </form>
 

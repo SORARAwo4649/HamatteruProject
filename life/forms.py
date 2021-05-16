@@ -9,15 +9,10 @@ import datetime as dt
 
 
 class DiaryForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(DiaryForm, self).__init__(*args, **kwargs)
-        self.fields["created_at"].initial = dt.datetime.now()
-
     class Meta:
-        Model = Diary
+        model = Diary
         fields = {
             "title",
             "thanks",
             "text",
-            "created_at"
         }

@@ -33,13 +33,13 @@ class DiaryListView(LoginRequiredMixin, ListView):
         current_user = self.request.user
         # スーパーユーザの場合、リストにすべてを表示する。
         if current_user.is_superuser or current_user.is_staff:
-            return Diary.objects.all().order_by("date").reverse()
+            return Diary.objects.all().order_by("created_by").reverse()
         # 一般ユーザは自分のレコードのみ表示する。
         else: 
-            return Diary.objects.filter(created_by=current_user.id).order_by("date").reverse()
+            return Diary.objects.filter(created_by=current_user.id).order_by("created_at").reverse()
 
 
-class ListDetailView(LoginRequiredMixin, DetailView):
+class DiaryDetailView(LoginRequiredMixin, DetailView):
     model = Diary
     template_name = "life/detail.html"
 
@@ -57,4 +57,4 @@ class DiaryDeleteView(LoginRequiredMixin, DeleteView):
     model = Diary
     template_name = "life/delete.html"
     form_class = DiaryForm
-    success_url = reverse_lazy("life/html")
+    success_url = reverse_lazy("life:list")
