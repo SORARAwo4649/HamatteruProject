@@ -124,7 +124,6 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class StaffCommentView(LoginRequiredMixin, UpdateView):
-
     model = List
     template_name = "health/staff_comments.html"
     form_class = StaffCommentForm
