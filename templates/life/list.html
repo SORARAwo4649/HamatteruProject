@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <main class="container">
     <div class="p-3 mb-2 bg-light text-dark">
         <section class="py-5 text-center container">
@@ -19,16 +17,22 @@
 
     <h1>日記一覧</h1>
     <div class="album py-5 bg-light">
+
         <div class="container">
+
+
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+
                 <div class="col">
+                    {% for diary in object_list %}
                     <div class="card shadow-sm">
-                        {% for diary in object_list %}
+
                         <div class="card-body">
+
                             <h2 class="diary-title">{{ diary.title }}</h2>
                             <p class="meta">
-                                <time
-                                    datetime="{{ diary.created_at | date:'Y-m-d' }}">{{ diary.created_at | date:'Y年n月j日' }}</time>
+                                <time datetime="{{ diary.created_at | date:'Y-m-d' }}">{{ diary.created_at | date:'Y年n月j日' }}</time>
                             </p>
                             <p class="card-text">{{ diary.thanks| truncatechars:50 }}</p>
                             <p class="card-text">{{ diary.text | truncatechars:50 }}</p>
@@ -42,11 +46,17 @@
                         </div>
                         {% empty %}
                         <p>記事が見つかりませんでした。</p>
-                        {% endfor %}
+
                     </div>
+                    {% endfor %}
                 </div>
+
+
+
             </div>
+
         </div>
+
     </div>
 </main>
 {% endblock %}

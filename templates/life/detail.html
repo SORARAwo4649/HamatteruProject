@@ -2,7 +2,6 @@
 
 {% block content %}
 <section id="diary-detail" class="container">
-    <nav class="back"><a href="{% get_return_link request %}">戻る</a></nav>
     <article class="diary">
         <h1 class="diary-title">{{ diary.title }}</h1>
         <p class="meta">
@@ -14,7 +13,7 @@
     </article>
 
     <a class="btn btn-info" href="{% url 'life:list' %}" role="button">一覧へ戻る</a>
-    <a class="btn btn-primary" href="{% url 'life:update' list.pk  %}" role="button">編集</a>
-    <a class="btn btn-danger" href="{% url 'life:delete' list.pk  %}" role="button">削除</a>
+    <a class="btn btn-primary" href="{% url 'life:update' diary.pk  %}" role="button">編集</a>
+    <a class="btn btn-danger" href="{% url 'life:delete' diary.pk  %}" role="button">削除</a>
 </section>
 {% endblock %}

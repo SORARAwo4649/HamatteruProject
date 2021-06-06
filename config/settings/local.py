@@ -1,4 +1,5 @@
 from .base import *
+import environ
 
 
 #####################
@@ -107,4 +108,7 @@ if DEBUG:
     )
     DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
-    }
+    }\
+
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
