@@ -1,22 +1,28 @@
-from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+###############
+# Build paths #
+###############
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_NAME = os.path.basename(BASE_DIR)
 print("##########################")
 print(BASE_DIR)
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+print(os.path.join(BASE_DIR, 'templates'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r9g-n(iv=szll!!-y&4*7iwagc^fguxh&@6zy1_4yjvc(xgpg8'
+############
+# Security #
+############
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', "localhost"]
+ALLOWED_HOSTS = ['127.0.0.1:8000', 'localhost']
 
-# Application definition
+
+#################
+# Core settings #
+#################
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,16 +31,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'accounts.apps.AccountsConfig',
     'myhealthapp.apps.MyhealthappConfig',
     'bootstrap_datepicker_plus',
     'crispy_forms',
     'django_filters',
     'bootstrap4',
-    'accounts.apps.AccountsConfig',
+    # 'django_cleanup',
+
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,7 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'accounts.middleware.SitePermissionMiddleware',
 ]
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -64,31 +80,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'myprojectuser',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 
-'''
+############
+# Database #
+############
+
+DATABASES = {}
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+############
+# Messages #
+############
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+
+###########
+# Logging #
+###########
+
+LOGGING = {}
+
+
+##################
+# Authentication #
+##################
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+#######################
+# Password validation #
+#######################
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -105,8 +128,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+########################
+# Internationalization #
+########################
 
 LANGUAGE_CODE = 'ja'
 
@@ -116,17 +141,32 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+################
+# Static files #
+################
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME)
 
-LOGIN_REDIRECT_URL = "myhealthapp:home"
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/{}/media'.format(PROJECT_NAME)
 
-LOGOUT_REDIRECT_URL = "myhealthapp:index"
 
-LOGIN_URL = "login"
+########################
+# Application settings #
+########################
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# humanize.intcomma
+NUMBER_GROUPING = 3
+
+
+##########
+# Stripe #
+##########
+
+STRIPE_API_KEY = '<stripe-api-key>'
+STRIPE_PUBLISHABLE_KEY = '<stripe-publishable-key>'

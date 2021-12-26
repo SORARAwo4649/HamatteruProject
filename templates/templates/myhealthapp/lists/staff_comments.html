@@ -1,0 +1,24 @@
+{% extends "myhealthapp/base.html" %}
+
+{% block content %}
+<div class="container">
+
+  <h1>リスト詳細</h1>
+  <dl class="row">
+    <dt class="col-sm-3">日付</dt>
+    <dd class="col-sm-9">{{ list.date }}</dd>
+    <dt class="col-sm-3">就寝時間</dt>
+    <dd class="col-sm-9">{{ list.go_to_bed }}</dd>
+    <dt class="col-sm-3">起床時間</dt>
+    <dd class="col-sm-9">{{ list.wakeup }}</dd>
+    <dt class="col-sm-3">コメント</dt>
+    <dd class="col-sm-9">{{ list.short_comment }}</dd>
+  </dl>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">送信</button>
+  </form>
+</div>
+{% endblock %}

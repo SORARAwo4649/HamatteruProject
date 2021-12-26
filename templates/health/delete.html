@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>リスト削除</h1>
+<form method="post">
+  {% csrf_token %}
+  <p>リスト "{{ list.date }}" を本当に削除してもよろしいですか？</p>
+  <button type="submit" class="btn btn-danger">確認</button>
+</form>
+{% endblock %}

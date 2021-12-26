@@ -16,6 +16,7 @@ django-crispy-forms = "^1.11.0"
 django-filter = "^2.4.0"
 django-postgres-timestamp-without-tz = "^2021.1.15"
 gunicorn = "^20.0.4"
+django-environ = "^0.8.1"
 
 [tool.poetry.dev-dependencies]
 

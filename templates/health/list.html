@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>リスト一覧</h1>
+
+  {% if form.is_valid %}
+  <div class="my_errors">
+    <h4>「入力成功」</h4>
+  </div>
+  {% endif %}
+
+  {% if form.errors %}
+  {{ form.non_field_errors }}
+  {% endif %}
+
+  {{ form.myfield }}
+  {% if form.myfield.errors %}
+  {{ form.myfield.errors }}
+  {% endif %}
+
+  <div>
+    <a class="btn btn-primary"
+       href="{% url 'health:lists_create' %}"
+       role="button">作成</a>
+    <br>
+
+    {% for list in list_list %}
+    <ui>
+      <div class="card">
+        <h5 class="card-header">{{ list.date }}</h5>
+        <div class="card-body">
+          <p class="card-title">作成者：{{ list.created_by }}</p>
+          <p class="card-title">就寝時間：{{ list.go_to_bed }}</p>
+          <p class="card-title">起床時間：{{ list.wakeup }}</p>
+          <p class="card-title">睡眠の質：{{ list.sleep_quality }}</p>
+          <p class="card-title">睡眠時間：{{ list.sleep_time }}[時間]</p>
+          <p class="card-title">最低気温：{{ list.min_temp }}[℃]</p>
+          <p class="card-title">最高気温：{{ list.max_temp }}[℃]</p>
+          <p class="card-title">気圧：{{ list.atmosphere }}[hPa]</p>
+          <p class="card-text">コメント：{{ list.short_comment }}</p>
+          <p class="card-text">スタッフより：{{ list.staff_comment }}</p>
+          <a href="{% url 'health:lists_detail' list.pk  %}"
+             class="btn btn-primary">編集</a>
+        </div>
+      </div>
+    </ui>
+    <br>
+
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

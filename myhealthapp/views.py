@@ -150,11 +150,16 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 class ListListView(LoginRequiredMixin, ListView):
     model = List
     template_name = "myhealthapp/lists/list.html"
-
-    # 更新順にリスト表示
+    # 日付順にリスト表示
     def get_queryset(self):
-
-        return List.objects.order_by("date").reverse()
+        current_user = self.request.user
+        print(current_user)
+        # スーパーユーザの場合、リストにすべてを表示する。
+        if current_user.is_superuser or current_user.is_staff:
+            return List.objects.all().order_by("date").reverse()
+        # 一般ユーザは自分のレコードのみ表示する。
+        else:
+            return List.objects.filter(created_by=current_user.id).order_by("date").reverse()
 
 
 class ListDetailView(LoginRequiredMixin, DetailView):

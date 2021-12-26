@@ -2,9 +2,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from django_postgres_timestamp_without_tz import DateTimeWithoutTZField
+from accounts.models import CustomUser
 
 
 class List(models.Model):
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     date = models.DateField("date", unique=True)
     go_to_bed = models.DateTimeField("go_to_bed")
     wakeup = models.DateTimeField("wakeup")
