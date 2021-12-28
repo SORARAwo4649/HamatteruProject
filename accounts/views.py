@@ -104,7 +104,7 @@ class LoginView(View):
         return redirect(reverse('accounts:home'))
 
 
-login = LoginView.as_view()
+# login = LoginView.as_view()
 
 
 class LogoutView(View):

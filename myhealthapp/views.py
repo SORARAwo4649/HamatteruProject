@@ -22,24 +22,6 @@ def home(request):
     return render(request, "myhealthapp/home.html")
 
 
-def signup(request):
-    # HTTPメソッドのチェック
-    # POSTならif以下へ
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user_instance = form.save()
-            login(request, user_instance)
-            return redirect("myhealthapp:home")
-    else:
-        form = UserCreationForm()
-
-    context = {
-        "form": form
-    }
-    return render(request, "myhealthapp/signup.html", context)
-
-
 class ListCreateView(LoginRequiredMixin, CreateView):
     model = List
     template_name = "myhealthapp/lists/create.html"
