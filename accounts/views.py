@@ -62,7 +62,7 @@ class RegisterView(View):
         return render(request, 'accounts/register.html', {'form': form})
 
 
-register = RegisterView.as_view()
+# register = RegisterView.as_view()
 
 
 class LoginView(View):
@@ -96,10 +96,10 @@ class LoginView(View):
         # user.post_login()
 
         # ロギング
-        logger.info("User(id={}) has logged in.".format(user.id))
+        # logger.info("User(id={}) has logged in.".format(user.id))
 
         # フラッシュメッセージを画面に表示
-        messages.info(request, "ログインしました。")
+        # messages.info(request, "ログインしました。")
 
         return redirect(reverse('accounts:home'))
 
@@ -121,7 +121,7 @@ class LogoutView(View):
         return redirect(reverse('accounts:login'))
 
 
-logout = LogoutView.as_view()
+# logout = LogoutView.as_view()
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -150,4 +150,4 @@ class ProfileView(LoginRequiredMixin, View):
 class RegistrationComp(generic.TemplateView):
     template_name = 'registration_complete.html'
 
-profile = ProfileView.as_view()
+# profile = ProfileView.as_view()

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import CustomUser
@@ -9,7 +9,7 @@ from .models import CustomUser
 class RegisterForm(forms.ModelForm):
     """ユーザー登録画面用のフォーム"""
 
-    class Meta:
+    class Meta(UserCreationForm):
         # 利用するモデルクラスを指定
         model = CustomUser
         # 利用するモデルのフィールドを指定

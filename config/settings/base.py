@@ -170,3 +170,7 @@ NUMBER_GROUPING = 3
 
 STRIPE_API_KEY = '<stripe-api-key>'
 STRIPE_PUBLISHABLE_KEY = '<stripe-publishable-key>'
+
+AUTH_USER_MODEL = "accounts.CustomUser"
+print("######################")
+print("base呼ばれてる")

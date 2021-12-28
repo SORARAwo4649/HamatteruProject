@@ -78,6 +78,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
 
         if form.is_valid():
             print("通った")
+            form.instance.created_by = self.request.user
             instance_form = form.save()
 
             # 睡眠時間の計算

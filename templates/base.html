@@ -41,10 +41,7 @@
           </span>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'health:lists_list' %}">MyHealth</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'life:list' %}">MyLife</a>
+                        <a class="nav-link" href="{% url 'myhealthapp:lists_list' %}">MyHealth</a>
                     </li>
 
                     {% endif %}
@@ -62,7 +59,7 @@
         <div class="container">
             <!-- <span class="text-muted">Place sticky footer content here.</span> -->
             {% if user.is_authenticated %}
-            <a href="{% url 'accounts:logout' %}">ログアウト</a> | <a href="{% url 'accounts:profile' %}">プロフィール</a> | <a href="{% url 'health:lists_list' %}">睡眠記録</a> {% endif %}
+            <a href="{% url 'accounts:logout' %}">ログアウト</a> | <a href="{% url 'accounts:profile' %}">プロフィール</a> | <a href="{% url 'myhealthapp:lists_list' %}">睡眠記録</a> {% endif %}
         </div>
     </footer>
 
