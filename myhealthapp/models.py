@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 
 class List(models.Model):
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField("date", unique=True)
+    date = models.DateField("date")
     go_to_bed = models.DateTimeField("go_to_bed")
     wakeup = models.DateTimeField("wakeup")
     short_comment = models.TextField("short_comment", max_length=200)
