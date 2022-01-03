@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% load static %} {% block page_title %}プロフィール更新{% endblock %} {% block extra_css %}
+<style type="text/css">
+    .container>.grid {
+        height: 100%;
+    }
+    
+    .column {
+        max-width: 400px;
+    }
+    
+    p.red.message {
+        color: #db2828;
+        margin: 0.8em 0 0 0.8em;
+        text-align: left;
+    }
+</style>
+{% endblock %} {% block content %}
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <form action="" method="post" class="ui form">
+            <div class="ui stacked segment">
+                {# --- 全体エラーメッセージ --- #} {% if form.non_field_errors %}
+                <div class="ui red message">
+                    <div class="header">エラー</div>
+                    <ul class="list">
+                        {% for non_field_error in form.non_field_errors %}
+                        <li>{{ non_field_error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %} {% for field in form %}
+                <div class="field{% if field.errors %} error{% endif %}">
+                    <tr>
+                        <th><label for="{{ field.id_for_label }}">{{ field.label }}</label></th>
+                        <td>{{ field }} {{ field.errors }}</td>
+                    </tr>
+                    {% endif %}
+                </div>
+                {% endfor %} {% csrf_token %}
+                <button type="submit" class="ui fluid teal submit button">更新</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

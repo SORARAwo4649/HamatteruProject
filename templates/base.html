@@ -54,12 +54,11 @@
         {% block content %}{% endblock %}
     </div>
 
-    {# TODO #}
     <footer class="footer mt-auto py-3">
         <div class="container">
             <!-- <span class="text-muted">Place sticky footer content here.</span> -->
             {% if user.is_authenticated %}
-            <a href="{% url 'accounts:logout' %}">ログアウト</a> | <a href="{% url 'accounts:profile' %}">プロフィール</a> | <a href="{% url 'myhealthapp:lists_list' %}">睡眠記録</a> {% endif %}
+            <a href="{% url 'accounts:logout' %}">ログアウト</a> | <a href="{% url 'accounts:user_detail' user.pk %}">プロフィール</a> | <a href="{% url 'myhealthapp:lists_list' %}">睡眠記録</a> {% endif %}
         </div>
     </footer>
 

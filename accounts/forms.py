@@ -100,15 +100,13 @@ class LoginForm(forms.Form):
         return self.user_cache
 
 
-class ProfileForm(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'last_name', 'first_name',)
+        # fields = ('username', 'email', 'last_name', 'first_name',)
+        fields = ('username', 'password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs = {'placeholder': 'ユーザー名'}
-
-    def clean_username(self):
-        value = self.cleaned_data['username']
-        return value
+        self.fields['password'].widget.attrs = {'placeholder': 'パスワード'}

@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
 
     # username をオーバーライドして NULL制約、ユニーク制約、入力必須制限を除去
     username = models.CharField(
-        'ユーザー名',
+        'username',
         max_length=150,
         blank=True,
         null=True,

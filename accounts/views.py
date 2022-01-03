@@ -5,17 +5,19 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse
 from django.views import View, generic
 
-from .forms import LoginForm, RegisterForm, ProfileForm
+from .forms import LoginForm, RegisterForm, UserUpdateForm
 
 logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
+    print("############################")
+    print(request.user.pk)
     return render(request, "accounts/home.html")
 
 env = environ.Env()
@@ -123,7 +125,7 @@ class LogoutView(View):
 
 # logout = LogoutView.as_view()
 
-
+"""
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form = ProfileForm(None, instance=request.user)
@@ -145,7 +147,34 @@ class ProfileView(LoginRequiredMixin, View):
 
         # フラッシュメッセージを画面に表示
         messages.info(request, "プロフィールを更新しました。")
-        return redirect('/accounts/profile/')
+        # return redirect('/accounts/profile')
+        return redirect(reverse('accounts:login'))
+"""
+# User = get_user_model()
+
+
+class OnlyYouMixin(UserPassesTestMixin, generic.TemplateView):
+    raise_exception = True
+
+    def test_func(self):
+        user = self.request.user
+        print(user)
+        return user.pk == self.kwargs['pk'] or user.is_superuser
+
+
+class UserDetail(OnlyYouMixin, generic.TemplateView):
+    # model = User
+    template_name = 'accounts/user_detail.html'
+
+
+class UserUpdate(OnlyYouMixin, generic.UpdateView):
+    # model = User
+    form_class = UserUpdateForm
+    template_name = 'register/user_update.html'
+
+    def get_success_url(self):
+        return resolve_url('register:user_detail', pk=self.kwargs['pk'])
+
 
 class RegistrationComp(generic.TemplateView):
     template_name = 'registration_complete.html'
