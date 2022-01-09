@@ -103,10 +103,11 @@ class LoginForm(forms.Form):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        # fields = ('username', 'email', 'last_name', 'first_name',)
-        fields = ('username', 'password')
+        fields = ('username',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs = {'placeholder': 'ユーザー名'}
-        self.fields['password'].widget.attrs = {'placeholder': 'パスワード'}
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+        # self.fields['username'].widget.attrs = {'placeholder': 'ユーザー名'}
+        # self.fields['password'].widget.attrs = {'placeholder': 'パスワード'}

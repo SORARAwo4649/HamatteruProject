@@ -11,13 +11,12 @@ from django.urls import reverse
 from django.views import View, generic
 
 from .forms import LoginForm, RegisterForm, UserUpdateForm
+from .models import CustomUser
 
 logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
-    print("############################")
-    print(request.user.pk)
     return render(request, "accounts/home.html")
 
 env = environ.Env()
@@ -44,27 +43,18 @@ class RegisterView(View):
             # バリデーションNGの場合はアカウント登録画面のテンプレートを再表示
             return render(request, 'accounts/register.html', {'form': form})
 
-        print("###################")
-        print(request.POST.dict())
-        print(request.POST.dict()["register_pass"])
+        # 登録を制限するために、登録用のパスワードを設置
         if request.POST.dict()["register_pass"] == register_password:
-            print("成功！！")
+            print("成功!!")
             # 保存する前に一旦取り出す
             user = form.save(commit=False)
             # パスワードをハッシュ化してセット
             user.set_password(form.cleaned_data['password'])
             # ユーザーオブジェクトを保存
             user.save()
-
-            # ログイン処理（取得した Userオブジェクトをセッションに保存 & Userデータを更新）
-            auth_login(request, user)
-
             return redirect(settings.LOGIN_REDIRECT_URL)
 
         return render(request, 'accounts/register.html', {'form': form})
-
-
-# register = RegisterView.as_view()
 
 
 class LoginView(View):
@@ -83,30 +73,23 @@ class LoginView(View):
         """POSTリクエスト用のメソッド"""
         # リクエストからフォームを作成
         form = LoginForm(request.POST)
+        
         # バリデーション（ユーザーの認証も合わせて実施）
         if not form.is_valid():
             # バリデーションNGの場合はログイン画面のテンプレートを再表示
             return render(request, 'accounts/login.html', {'form': form})
-
+        
         # ユーザーオブジェクトをフォームから取得
         user = form.get_user()
 
         # ログイン処理（取得したユーザーオブジェクトをセッションに保存 & ユーザーデータを更新）
         auth_login(request, user)
 
-        # ログイン後処理（ログイン回数を増やしたりする。本来は user_logged_in シグナルを使えばもっと簡単に書ける）
-        # user.post_login()
-
-        # ロギング
-        # logger.info("User(id={}) has logged in.".format(user.id))
-
-        # フラッシュメッセージを画面に表示
-        # messages.info(request, "ログインしました。")
-
         return redirect(reverse('accounts:home'))
 
 
-# login = LoginView.as_view()
+class RegistrationComp(generic.TemplateView):
+    template_name = 'registration_complete.html'
 
 
 class LogoutView(View):
@@ -123,60 +106,23 @@ class LogoutView(View):
         return redirect(reverse('accounts:login'))
 
 
-# logout = LogoutView.as_view()
-
-"""
-class ProfileView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        form = ProfileForm(None, instance=request.user)
-        context = {
-            'form': form,
-        }
-        return render(request, 'accounts/profile.html', context)
-
-    def post(self, request, *args, **kwargs):
-        logger.info("You're in post!!!")
-
-        # フォームを使ってバリデーション
-        form = ProfileForm(request.POST, instance=request.user)
-        if not form.is_valid():
-            return render(request, 'accounts/profile.html', {'form': form})
-
-        # 変更を保存
-        form.save()
-
-        # フラッシュメッセージを画面に表示
-        messages.info(request, "プロフィールを更新しました。")
-        # return redirect('/accounts/profile')
-        return redirect(reverse('accounts:login'))
-"""
-# User = get_user_model()
-
-
-class OnlyYouMixin(UserPassesTestMixin, generic.TemplateView):
+class OnlyYouMixin(UserPassesTestMixin):
     raise_exception = True
 
     def test_func(self):
         user = self.request.user
-        print(user)
         return user.pk == self.kwargs['pk'] or user.is_superuser
 
 
-class UserDetail(OnlyYouMixin, generic.TemplateView):
-    # model = User
+class UserDetailView(OnlyYouMixin, generic.DetailView):
+    model = CustomUser
     template_name = 'accounts/user_detail.html'
 
 
-class UserUpdate(OnlyYouMixin, generic.UpdateView):
-    # model = User
+class UserUpdateView(OnlyYouMixin, generic.UpdateView):
+    model = CustomUser
     form_class = UserUpdateForm
-    template_name = 'register/user_update.html'
+    template_name = 'accounts/user_update.html'
 
     def get_success_url(self):
-        return resolve_url('register:user_detail', pk=self.kwargs['pk'])
-
-
-class RegistrationComp(generic.TemplateView):
-    template_name = 'registration_complete.html'
-
-# profile = ProfileView.as_view()
+        return resolve_url('accounts:user_detail', pk=self.kwargs['pk'])

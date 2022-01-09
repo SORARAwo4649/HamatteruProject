@@ -91,24 +91,7 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             # DBに保存
             insert_sleep_time.save()
 
-            # スプレッドシートに書き出す ############################################
-            # 以下はセットで使う
-            value = [
-                "date",
-                "go_to_bed",
-                "wakeup",
-                "sleep_quality",
-                "sleep_time",
-                "min_temp",
-                "max_temp",
-                "atmosphere",
-                "short_comment",
-                "staff_comment",
-            ]
-            model_set = List.objects.filter(id=instance_id).values(*value)[0]
-            qs = g_spread.GSpreadWriter()
-            qs.write_to_spread(model_set)
-            # ##################################################################
+            spread_settings(self)
 
             # return redirect("/myhealthapp/lists/", {"form": form})
             return redirect("myhealthapp:lists_list")
@@ -156,26 +139,7 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ListForm
 
     def get_success_url(self):
-        # スプレッドシートに書き出す ############################################
-        # 以下はセットで使う
-        print(self.kwargs["pk"])
-        instance_id = self.kwargs["pk"]
-        value = [
-            "date",
-            "go_to_bed",
-            "wakeup",
-            "sleep_quality",
-            "sleep_time",
-            "min_temp",
-            "max_temp",
-            "atmosphere",
-            "short_comment",
-            "staff_comment",
-        ]
-        model_set = List.objects.filter(id=instance_id).values(*value)[0]
-        qs = g_spread.GSpreadWriter()
-        qs.write_to_spread(model_set)
-        # ##################################################################
+        spread_settings(self)
         return resolve_url('myhealthapp:lists_detail', pk=self.kwargs['pk'])
 
 
@@ -186,10 +150,27 @@ class StaffCommentView(LoginRequiredMixin, UpdateView):
     form_class = StaffCommentForm
 
     def get_success_url(self):
-        # スプレッドシートに書き出す ############################################
+        spread_settings(self)
+        return resolve_url("myhealthapp:lists_detail", pk=self.kwargs["pk"])
+
+
+class ListDeleteView(LoginRequiredMixin, DeleteView):
+    model = List
+    template_name = "myhealthapp/delete.html"
+    form_class = ListForm
+    success_url = reverse_lazy("myhealthapp:lists_list")
+
+
+@login_required
+def form_failed(request):
+    return render(request, "/myhealthapp/form_failed.html")
+
+
+def spread_settings(selfself):
+    # スプレッドシートに書き出す ############################################
         # 以下はセットで使う
-        print(self.kwargs["pk"])
-        instance_id = self.kwargs["pk"]
+        print(selfself.kwargs["pk"])
+        instance_id = selfself.kwargs["pk"]
         value = [
             "date",
             "go_to_bed",
@@ -206,16 +187,3 @@ class StaffCommentView(LoginRequiredMixin, UpdateView):
         qs = g_spread.GSpreadWriter()
         qs.write_to_spread(model_set)
         # ##################################################################
-        return resolve_url("myhealthapp:lists_detail", pk=self.kwargs["pk"])
-
-
-class ListDeleteView(LoginRequiredMixin, DeleteView):
-    model = List
-    template_name = "myhealthapp/lists/delete.html"
-    form_class = ListForm
-    success_url = reverse_lazy("myhealthapp:lists_list")
-
-
-@login_required
-def form_failed(request):
-    return render(request, "/myhealthapp/lists/form_failed.html")

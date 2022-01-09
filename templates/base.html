@@ -37,12 +37,13 @@
 
                     {% if request.user.is_authenticated %}
                     <span class="navbar-text">
-            こんにちは {{ request.user.username }} さん
-          </span>
+                        こんにちは {{ request.user.username }} さん
+                    </span>
 
-                    <li class="nav-item">
+                    <a class="nav-item">
                         <a class="nav-link" href="{% url 'myhealthapp:lists_list' %}">MyHealth</a>
-                    </li>
+                        <a class="nav-link" href="{% url 'accounts:home' %}">home</a>
+                    </a>
 
                     {% endif %}
 
