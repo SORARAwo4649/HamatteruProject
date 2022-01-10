@@ -24,7 +24,7 @@ def home(request):
 
 class ListCreateView(LoginRequiredMixin, CreateView):
     model = List
-    template_name = "myhealthapp/lists/create.html"
+    template_name = "myhealthapp/create.html"
     form_class = ListForm
 
     def post(self, request, *args, **kwargs):
@@ -108,14 +108,14 @@ class ListCreateView(LoginRequiredMixin, CreateView):
             # return render(request, "myhealthapp/lists/form_failed.html", {"form": form})
             return render(
                 request,
-                "myhealthapp/lists/create.html",
+                "myhealthapp/create.html",
                 {"form": form}
             )
 
 
 class ListListView(LoginRequiredMixin, ListView):
     model = List
-    template_name = "myhealthapp/lists/list.html"
+    template_name = "myhealthapp/list.html"
     # 日付順にリスト表示
     def get_queryset(self):
         current_user = self.request.user
@@ -130,12 +130,12 @@ class ListListView(LoginRequiredMixin, ListView):
 
 class ListDetailView(LoginRequiredMixin, DetailView):
     model = List
-    template_name = "myhealthapp/lists/detail.html"
+    template_name = "myhealthapp/detail.html"
 
 
 class ListUpdateView(LoginRequiredMixin, UpdateView):
     model = List
-    template_name = "myhealthapp/lists/update.html"
+    template_name = "myhealthapp/update.html"
     form_class = ListForm
 
     def get_success_url(self):
@@ -144,9 +144,8 @@ class ListUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class StaffCommentView(LoginRequiredMixin, UpdateView):
-
     model = List
-    template_name = "myhealthapp/lists/staff_comments.html"
+    template_name = "myhealthapp/staff_comments.html"
     form_class = StaffCommentForm
 
     def get_success_url(self):
