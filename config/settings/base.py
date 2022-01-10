@@ -170,3 +170,11 @@ NUMBER_GROUPING = 3
 
 STRIPE_API_KEY = '<stripe-api-key>'
 STRIPE_PUBLISHABLE_KEY = '<stripe-publishable-key>'
+
+STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = "accounts:home"
+
+LOGOUT_REDIRECT_URL = "myhealthapp:index"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

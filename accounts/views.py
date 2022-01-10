@@ -24,7 +24,7 @@ register_password = env('register_pass')
 
 class RegisterView(View):
     def get(self, request, *args, **kwargs):
-        # すでにログインしている場合はショップ画面へリダイレクト
+        # すでにログインしている場合はリダイレクト
         if request.user.is_authenticated:
             return redirect(reverse('accounts:home'))
 
@@ -34,8 +34,6 @@ class RegisterView(View):
         return render(request, 'accounts/register.html', context)
 
     def post(self, request, *args, **kwargs):
-        logger.info("You're in post!!!")
-
         # リクエストからフォームを作成
         form = RegisterForm(request.POST)
         # バリデーション
@@ -52,9 +50,11 @@ class RegisterView(View):
             user.set_password(form.cleaned_data['password'])
             # ユーザーオブジェクトを保存
             user.save()
+            
+            auth_login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
 
-        return render(request, 'accounts/register.html', {'form': form})
+        return render(request, 'accounts/home.html', {'form': form})
 
 
 class LoginView(View):
