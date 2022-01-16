@@ -8,8 +8,11 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, \
     DeleteView
 
+from datetime import datetime as dt
+
 from .forms import ListForm, StaffCommentForm
 from .models import List
+from . import graph
 from .writer import g_spread
 
 
@@ -124,6 +127,26 @@ class ListListView(LoginRequiredMixin, ListView):
         # 一般ユーザは自分のレコードのみ表示する。
         else:
             return List.objects.filter(created_by=current_user.id).order_by("date").reverse()
+    
+    # 以下グラフの表示
+    #変数としてグラフイメージをテンプレートに渡す
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+
+        #グラフオブジェクト
+        qs    = List.objects.filter(created_by=current_user.id).order_by("date").reverse()  #モデルクラス(ProductAテーブル)読込
+        x     = [x.date.strftime('%Y/%m/%d') for x in qs]           #X軸データ
+        y     = [str(y.sleep_time) for y in qs]        #Y軸データ
+        chart = graph.Plot_Graph(x,y)          #グラフ作成
+
+        #変数を渡す
+        context = super().get_context_data(**kwargs)
+        context['chart'] = chart
+        return context
+
+    #get処理
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ListDetailView(LoginRequiredMixin, DetailView):

@@ -1,8 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
     <h1>リスト一覧</h1>
-
-    {% if form.is_valid %}
+    <img src="data:image/png;base64,{{ chart | safe }}"> {% if form.is_valid %}
     <div class="my_errors">
         <h4>「入力成功」</h4>
     </div>
