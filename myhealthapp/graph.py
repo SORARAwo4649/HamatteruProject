@@ -24,16 +24,6 @@ def Output_Graph():
 
 #グラフをプロットするための関数
 def Plot_Graph(x,y):
-    """[summary]
-    ax = plt.subplot()
-    xfmt = mdates.DateFormatter("%m/%d")
-    xloc = mdates.DayLocator()
-    ax.xaxis.set_major_locator(xloc)
-    ax.xaxis.set_major_formatter(xfmt)
-    ax.set_xlim(datetime.datetime(2018,10,1), datetime.datetime(2018,10,10))
-    ax.grid(True)
-    """
-
     plt.switch_backend("AGG")        #スクリプトを出力させない
     plt.figure(figsize=(10,5))       #グラフサイズ
     plt.plot(x,y, marker="o")                     #グラフ作成
@@ -42,6 +32,5 @@ def Plot_Graph(x,y):
     plt.xlabel("Date")               #xラベル
     plt.ylabel("sleep_time")             #yラベル
     plt.tight_layout()               #レイアウト
-    
     graph = Output_Graph()           #グラフプロット
     return graph

@@ -134,7 +134,7 @@ class ListListView(LoginRequiredMixin, ListView):
         current_user = self.request.user
 
         #グラフオブジェクト
-        qs    = List.objects.filter(created_by=current_user.id).order_by("date").reverse()  #モデルクラス(ProductAテーブル)読込
+        qs    = List.objects.filter(created_by=current_user.id).order_by("date")  #モデルクラス(ProductAテーブル)読込
         x     = [x.date.strftime('%Y/%m/%d') for x in qs]           #X軸データ
         y     = [str(y.sleep_time) for y in qs]        #Y軸データ
         chart = graph.Plot_Graph(x,y)          #グラフ作成
