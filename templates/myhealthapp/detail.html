@@ -18,15 +18,15 @@
   </dl>
 
   <a class="btn btn-info"
-     href="{% url 'health:lists_list' %}"
+     href="{% url 'myhealthapp:lists_list' %}"
      role="button">一覧へ戻る</a>
   <a class="btn btn-primary"
-     href="{% url 'health:lists_update' list.pk  %}"
+     href="{% url 'myhealthapp:lists_update' list.pk  %}"
      role="button">編集</a>
-  <a class="btn btn-danger" href="{% url 'health:lists_delete' list.pk  %}"
+  <a class="btn btn-danger" href="{% url 'myhealthapp:lists_delete' list.pk  %}"
      role="button">削除</a>
   <a class="btn btn-success"
-     href="{% url 'health:staff_comment' list.pk  %}"
+     href="{% url 'myhealthapp:staff_comment' list.pk  %}"
      role="button">スタッフコメント</a>
 
 

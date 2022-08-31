@@ -13,7 +13,7 @@ class List(models.Model):
     short_comment = models.TextField("short_comment", max_length=200)
 
     # 追加分①
-    sleep_time = models.TimeField("sleep_time", null=True, blank=True)
+    sleep_time = models.FloatField("sleep_time", null=True, blank=True)
 
     # 追加分②
     sleep_quality = models.IntegerField(

@@ -35,7 +35,7 @@ class ListForm(forms.ModelForm):
 
         self.fields["short_comment"].initial = ""
         self.fields["sleep_quality"].initial = 10
-        # self.fields["staff_comment"].initial = ""
+        
 
     class Meta:
         model = List

@@ -32,7 +32,7 @@ class Command(BaseCommand):
         print(url)
         res = requests.get(url)
         # ########################################
-        time.sleep(60)
+        time.sleep(30)
 
         # レスポンスの HTML から BeautifulSoup オブジェクトを作る
         soup = BeautifulSoup(res.content, 'html.parser')
@@ -72,19 +72,17 @@ class Command(BaseCommand):
             print((now - datetime.timedelta(days=1)).date())
             db_ins = List.objects.all().filter(
                 date=(now - datetime.timedelta(days=1)).date()
-            ).first()
-            print("ここだよね")
+            )
             print(f"DB:{db_ins}")
 
             # データをfloat型に変更して追加
-            db_ins.min_temp = float(min_temp_text)
-            db_ins.max_temp = float(max_temp_text)
-            db_ins.atmosphere = float(hpa_text)
-
-            # DBに登録
-            db_ins.save()
-
-            print("ここまではうまくいく2")
+            
+            for i in db_ins:
+                i.min_temp = float(min_temp_text)
+                i.max_temp = float(max_temp_text)
+                i.atmosphere = float(hpa_text)
+                # DBに登録
+                i.save()
 
             # スプレッドシートに書き出す ############################################
             # 以下はセットで使う
